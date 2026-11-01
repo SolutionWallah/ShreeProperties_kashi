@@ -1,0 +1,31 @@
+:root {
+  --color-ivory: #fffaf2;
+  --color-paper: #fffdf8;
+  --color-sand: #f5ead9;
+  --color-ink: #18211d;
+  --color-muted: #5e665f;
+  --color-line: #e8d9c5;
+  --color-green: #075337;
+  --color-green-deep: #033b2b;
+  --color-green-soft: #e6f0e7;
+  --color-orange: #d6400c;
+  --color-orange-deep: #b9340c;
+  --color-orange-soft: #fff0e2;
+  --color-white: #fff;
+  --font-body: "Inter", "Aptos", "Segoe UI", sans-serif;
+  --font-display: "Iowan Old Style", "Baskerville", "Georgia", serif;
+  --content-width: 1320px;
+  --space-1: 0.35rem;
+  --space-2: 0.6rem;
+  --space-3: 0.9rem;
+  --space-4: 1.2rem;
+  --space-5: 1.6rem;
+  --space-6: 2rem;
+  --space-8: 2.8rem;
+  --space-10: 3.5rem;
+  --radius-sm: 0.65rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.35rem;
+  --shadow-card: 0 12px 30px rgb(50 34 17 / 8%);
+  --shadow-lift: 0 18px 42px rgb(50 34 17 / 14%);
+}

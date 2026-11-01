@@ -1,0 +1,19 @@
+{
+  "surface": "public home and property discovery",
+  "mode": "persuade",
+  "buildPath": "comp",
+  "approvedComp": ".impeccable/mocks/decision/home-desktop.png",
+  "mobileComp": ".impeccable/mocks/decision/home-mobile.png",
+  "requiredViewports": [
+    { "name": "desktop", "width": 1536, "height": 1024 },
+    { "name": "mobile", "width": 390, "height": 844 }
+  ],
+  "mustPreserve": [
+    "Warm ivory, deep green, vermilion, serif titles, and supplied Hindi identity line",
+    "Mobile composition begins with compact identity, a scenic hero, stacked actions, and a two-column service row",
+    "Direct phone and WhatsApp actions",
+    "Home featured listings and full property browsing route",
+    "Footer riverfront art as a separate image element, never a page background",
+    "No unverified testimonials, metrics, or claims"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "buildPath": "comp",
+  "comp": ".impeccable/mocks/decision/home-desktop.png",
+  "mobileComp": ".impeccable/mocks/decision/home-mobile.png",
+  "status": "implemented",
+  "round": 1
+}
