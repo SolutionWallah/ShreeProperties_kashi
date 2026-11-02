@@ -1,6 +1,6 @@
 import type { ReactNode, SVGProps } from "react";
 
-type IconName = "temple" | "home" | "pin" | "shield" | "handshake" | "sprout" | "building" | "bed" | "bath" | "area" | "layers" | "heart" | "arrow" | "phone" | "whatsapp" | "menu" | "close" | "chevron" | "plus" | "search" | "check" | "briefcase" | "user" | "instagram" | "youtube" | "key" | "share" | "map" | "car" | "bolt" | "lift" | "sofa";
+type IconName = "temple" | "home" | "pin" | "shield" | "handshake" | "sprout" | "building" | "bed" | "bath" | "area" | "layers" | "heart" | "arrow" | "phone" | "whatsapp" | "menu" | "close" | "chevron" | "plus" | "search" | "check" | "briefcase" | "user" | "instagram" | "youtube" | "key" | "share" | "map" | "car" | "bolt" | "lift" | "sofa" | "logout" | "edit" | "trash" | "file" | "image" | "upload" | "back" | "tag";
 
 const iconPaths: Record<IconName, ReactNode> = {
   temple: <><path d="M3 20h18M5 20v-8l3-2V7l4-4 4 4v3l3 2v8" /><path d="M8 10h8M9 20v-5a3 3 0 0 1 6 0v5M12 3V1M4 12h16" /></>,
@@ -35,6 +35,14 @@ const iconPaths: Record<IconName, ReactNode> = {
   bolt: <path d="m13 2-9 12h7l-1 8 10-13h-7z" />,
   lift: <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="m9 9 3-3 3 3m-6 6 3 3 3-3M12 6v12" /></>,
   sofa: <><path d="M4 12V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3M3 12a2 2 0 0 1 2 2v4h14v-4a2 2 0 0 1 2-2v8H3zM6 18v2m12-2v2" /></>,
+  logout: <><path d="M10 17l5-5-5-5M15 12H3" /><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6" /></>,
+  edit: <><path d="m14 5 5 5M4 20l4.5-1 11-11a2.1 2.1 0 0 0-3-3l-11 11L4 20Z" /></>,
+  trash: <><path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6m4 4v6m6-6v6" /></>,
+  file: <><path d="M6 3h8l5 5v13H6zM14 3v6h5M9 13h7m-7 4h7" /></>,
+  image: <><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" /></>,
+  upload: <><path d="M12 16V4m-5 5 5-5 5 5" /><path d="M4 16v4h16v-4" /></>,
+  back: <><path d="M19 12H5m7 7-7-7 7-7" /></>,
+  tag: <><path d="M20 13 13 20 3 10V3h7l10 10Z" /><circle cx="7.5" cy="7.5" r="1" /></>,
 };
 
 /** Renders a consistent line icon from the shared project icon set. */
