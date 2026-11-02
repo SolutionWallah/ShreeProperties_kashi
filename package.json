@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write app package.json tsconfig.json .prettierrc.json",
+    "format:check": "prettier --check app package.json tsconfig.json .prettierrc.json"
   },
   "dependencies": {
     "next": "latest",
@@ -16,6 +18,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "prettier": "^3.9.10",
     "typescript": "latest"
   }
 }

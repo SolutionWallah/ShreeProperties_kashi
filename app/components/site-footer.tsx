@@ -9,44 +9,105 @@ export function SiteFooter() {
         <div className="footer-brand">
           <Link className="brand" href="/">
             <Icon className="brand-mark" name="temple" />
-            <span className="brand-name">Shree<br />Property Kashi</span>
+            <span className="brand-name">
+              Shree
+              <br />
+              Property Kashi
+            </span>
           </Link>
-          <p className="footer-tagline" lang="hi">आप का विश्वास ही, मेरी पहचान हैं</p>
-          <p className="footer-copy">Local property guidance for homes, commercial spaces, and land in Varanasi.</p>
+          <p className="footer-tagline" lang="hi">
+            आप का विश्वास ही, मेरी पहचान हैं
+          </p>
+          <p className="footer-copy">
+            Local property guidance for homes, commercial spaces, and land in Varanasi.
+          </p>
         </div>
         <div className="footer-column">
           <h2>Quick Links</h2>
           <ul className="footer-links">
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/properties">Properties</Link></li>
-            <li><a href="/#services">Services</a></li>
-            <li><a href="/#about">About</a></li>
-            <li><a href="/#contact">Contact</a></li>
+            <li>
+              <Link href="/">Home</Link>
+            </li>
+            <li>
+              <Link href="/properties">Properties</Link>
+            </li>
+            <li>
+              <a href="/#services">Services</a>
+            </li>
+            <li>
+              <a href="/#about">About</a>
+            </li>
+            <li>
+              <a href="/#contact">Contact</a>
+            </li>
           </ul>
         </div>
         <div className="footer-column">
           <h2>Our Services</h2>
           <ul className="footer-links">
-            <li><Link href="/properties?kind=Buy"><Icon name="home" />Buy Property</Link></li>
-            <li><Link href="/properties?kind=Rent"><Icon name="key" />Rent Property</Link></li>
-            <li><Link href="/properties?kind=Commercial"><Icon name="building" />Commercial Spaces</Link></li>
-            <li><Link href="/properties?kind=Plots"><Icon name="layers" />Plots &amp; Land</Link></li>
+            <li>
+              <Link href="/properties?kind=Buy">
+                <Icon name="home" />
+                Buy Property
+              </Link>
+            </li>
+            <li>
+              <Link href="/properties?kind=Rent">
+                <Icon name="key" />
+                Rent Property
+              </Link>
+            </li>
+            <li>
+              <Link href="/properties?kind=Commercial">
+                <Icon name="building" />
+                Commercial Spaces
+              </Link>
+            </li>
+            <li>
+              <Link href="/properties?kind=Plots">
+                <Icon name="layers" />
+                Plots &amp; Land
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="footer-column">
           <h2>Get in Touch</h2>
           <ul className="footer-links">
-            <li><a className="footer-contact" href="tel:+919889028504"><Icon name="phone" />+91 98890 28504</a></li>
-            <li><a className="footer-contact" href="https://wa.me/919889028504"><Icon name="whatsapp" />Chat on WhatsApp</a></li>
-            <li><span className="footer-contact"><Icon name="pin" />Varanasi, Uttar Pradesh</span></li>
+            <li>
+              <a className="footer-contact" href="tel:+919889028504">
+                <Icon name="phone" />
+                +91 98890 28504
+              </a>
+            </li>
+            <li>
+              <a className="footer-contact" href="https://wa.me/919889028504">
+                <Icon name="whatsapp" />
+                Chat on WhatsApp
+              </a>
+            </li>
+            <li>
+              <span className="footer-contact">
+                <Icon name="pin" />
+                Varanasi, Uttar Pradesh
+              </span>
+            </li>
           </ul>
         </div>
       </div>
-      <img className="footer-art" src="/images/varanasi-riverfront-footer.webp" alt="Orange line illustration of the Varanasi riverfront and boats" />
+      <img
+        className="footer-art"
+        src="/images/varanasi-riverfront-footer.webp"
+        alt="Orange line illustration of the Varanasi riverfront and boats"
+      />
       <div className="footer-bottom">
         <div className="shell footer-bottom-inner">
           <span>© 2026 Shree Property Kashi. All rights reserved.</span>
-          <div className="legal-links"><span>Privacy Policy</span><span aria-hidden="true">|</span><span>Terms &amp; Conditions</span></div>
+          <div className="legal-links">
+            <span>Privacy Policy</span>
+            <span aria-hidden="true">|</span>
+            <span>Terms &amp; Conditions</span>
+          </div>
         </div>
       </div>
     </footer>
