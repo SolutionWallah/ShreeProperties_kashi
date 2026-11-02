@@ -1,11 +1,30 @@
-import { properties, type ListingKind, type Property, type PropertyCategory } from "../data/properties";
+import {
+  properties,
+  type ListingKind,
+  type Property,
+  type PropertyCategory,
+} from "../data/properties";
 
 export type AdminStatus = "Available" | "Sold" | "Rented" | "Leased";
 export type AdminProperty = Property & {
-  adminStatus: AdminStatus; published: boolean; description: string; totalFloors?: string;
-  furnishing?: string; parking?: string; lift?: string; powerBackup?: string; photos?: string[];
-  youtubeUrl?: string; googleMapsUrl?: string; highlights?: string[];
-  commercialType?: string; landUse?: string; plotDimensions?: string; roadWidth?: string; plotFacing?: string; boundaryWall?: string;
+  adminStatus: AdminStatus;
+  published: boolean;
+  description: string;
+  totalFloors?: string;
+  furnishing?: string;
+  parking?: string;
+  lift?: string;
+  powerBackup?: string;
+  photos?: string[];
+  youtubeUrl?: string;
+  googleMapsUrl?: string;
+  highlights?: string[];
+  commercialType?: string;
+  landUse?: string;
+  plotDimensions?: string;
+  roadWidth?: string;
+  plotFacing?: string;
+  boundaryWall?: string;
 };
 
 const storageKey = "shree-property-kashi-admin-listings";
@@ -20,7 +39,13 @@ const initialStatuses: Record<string, AdminStatus> = {
 
 /** Converts the public sample listings into the admin's editable demonstration records. */
 export function getInitialAdminProperties(): AdminProperty[] {
-  return properties.map((property) => ({ ...property, adminStatus: initialStatuses[property.id] ?? "Available", published: true, description: "", photos: [property.image] }));
+  return properties.map((property) => ({
+    ...property,
+    adminStatus: initialStatuses[property.id] ?? "Available",
+    published: true,
+    description: "",
+    photos: [property.image],
+  }));
 }
 
 /** Loads saved admin records from this browser, falling back to the supplied sample listings. */
@@ -28,7 +53,7 @@ export function loadAdminProperties(): AdminProperty[] {
   try {
     const saved = window.localStorage.getItem(storageKey);
     const records: unknown = saved ? JSON.parse(saved) : null;
-    return Array.isArray(records) ? records as AdminProperty[] : getInitialAdminProperties();
+    return Array.isArray(records) ? (records as AdminProperty[]) : getInitialAdminProperties();
   } catch {
     return getInitialAdminProperties();
   }
@@ -41,13 +66,36 @@ export function saveAdminProperties(records: AdminProperty[]) {
 
 /** Builds a new local admin record from the add-property form values. */
 export function createAdminProperty(input: {
-  title: string; kind: ListingKind; category: PropertyCategory; location: string; price: string; priceValueLakh: number;
-  bedrooms: string; bathrooms: number; area: string; description: string; adminStatus: AdminStatus; published: boolean;
-  floor: string; totalFloors: string; furnishing: string; parking: string; lift: string; powerBackup: string;
-  youtubeUrl: string; googleMapsUrl: string; highlights: string[];
-  commercialType: string; landUse: string; plotDimensions: string; roadWidth: string; plotFacing: string; boundaryWall: string;
+  title: string;
+  kind: ListingKind;
+  category: PropertyCategory;
+  location: string;
+  price: string;
+  priceValueLakh: number;
+  bedrooms: string;
+  bathrooms: number;
+  area: string;
+  description: string;
+  adminStatus: AdminStatus;
+  published: boolean;
+  floor: string;
+  totalFloors: string;
+  furnishing: string;
+  parking: string;
+  lift: string;
+  powerBackup: string;
+  youtubeUrl: string;
+  googleMapsUrl: string;
+  highlights: string[];
+  commercialType: string;
+  landUse: string;
+  plotDimensions: string;
+  roadWidth: string;
+  plotFacing: string;
+  boundaryWall: string;
 }): AdminProperty {
-  const transactionStatus: Property["status"] = input.kind === "Rent" ? "For Rent" : input.kind === "Commercial" ? "For Lease" : "For Sale";
+  const transactionStatus: Property["status"] =
+    input.kind === "Rent" ? "For Rent" : input.kind === "Commercial" ? "For Lease" : "For Sale";
   return {
     id: `listing-${Date.now()}`,
     title: input.title,
@@ -75,7 +123,8 @@ export function createAdminProperty(input: {
     highlights: input.highlights.filter(Boolean).slice(0, 5),
     commercialType: input.category === "Commercial" ? input.commercialType || undefined : undefined,
     landUse: input.category === "Plot / Land" ? input.landUse || undefined : undefined,
-    plotDimensions: input.category === "Plot / Land" ? input.plotDimensions || undefined : undefined,
+    plotDimensions:
+      input.category === "Plot / Land" ? input.plotDimensions || undefined : undefined,
     roadWidth: input.category === "Plot / Land" ? input.roadWidth || undefined : undefined,
     plotFacing: input.category === "Plot / Land" ? input.plotFacing || undefined : undefined,
     boundaryWall: input.category === "Plot / Land" ? input.boundaryWall || undefined : undefined,
