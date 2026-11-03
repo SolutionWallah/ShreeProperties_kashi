@@ -4,13 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "format": "prettier --write app package.json tsconfig.json .prettierrc.json",
     "format:check": "prettier --check app package.json tsconfig.json .prettierrc.json"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "dotenv": "^18.0.9",
     "next": "latest",
+    "pg": "^8.23.1",
+    "prisma": "^7.10.1",
     "react": "latest",
     "react-dom": "latest"
   },

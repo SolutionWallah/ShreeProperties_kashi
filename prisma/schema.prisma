@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ListingKind {
+  BUY        @map("Buy")
+  RENT       @map("Rent")
+  COMMERCIAL @map("Commercial")
+  PLOTS      @map("Plots")
+}
+
+enum PropertyCategory {
+  RESIDENTIAL @map("Residential")
+  COMMERCIAL  @map("Commercial")
+  PLOT_LAND   @map("Plot / Land")
+}
+
+enum PropertyStatus {
+  AVAILABLE @map("Available")
+  SOLD      @map("Sold")
+  RENTED    @map("Rented")
+  LEASED    @map("Leased")
+}
+
+model Property {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug           String           @unique @db.VarChar(220)
+  title          String           @db.VarChar(200)
+  kind           ListingKind
+  category       PropertyCategory
+  status         PropertyStatus   @default(AVAILABLE)
+  published      Boolean          @default(false)
+  location       String           @db.VarChar(200)
+  priceRupees    Decimal          @map("price_rupees") @db.Decimal(15, 2)
+  areaSqFt       Decimal          @map("area_sq_ft") @db.Decimal(12, 2)
+  description    String           @db.VarChar(500)
+  bedrooms       String?          @db.VarChar(20)
+  bathrooms      Int?
+  floor          String?          @db.VarChar(50)
+  totalFloors    String?          @map("total_floors") @db.VarChar(50)
+  furnishing     String?          @db.VarChar(50)
+  parking        String?          @db.VarChar(50)
+  lift           String?          @db.VarChar(20)
+  powerBackup    String?          @map("power_backup") @db.VarChar(50)
+  commercialType String?          @map("commercial_type") @db.VarChar(50)
+  landUse        String?          @map("land_use") @db.VarChar(50)
+  plotDimensions String?          @map("plot_dimensions") @db.VarChar(100)
+  roadWidth      String?          @map("road_width") @db.VarChar(50)
+  plotFacing     String?          @map("plot_facing") @db.VarChar(50)
+  boundaryWall   String?          @map("boundary_wall") @db.VarChar(20)
+  youtubeUrl     String?          @map("youtube_url") @db.VarChar(2048)
+  googleMapsUrl  String?          @map("google_maps_url") @db.VarChar(2048)
+  highlights     String[]         @default([])
+  images         PropertyImage[]
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime         @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([published, createdAt(sort: Desc)])
+  @@index([category, status])
+  @@map("properties")
+}
+
+model PropertyImage {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  propertyId String   @map("property_id") @db.Uuid
+  objectKey  String   @unique @map("object_key") @db.VarChar(1024)
+  position   Int
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([propertyId, position])
+  @@map("property_images")
+}
