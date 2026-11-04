@@ -7,6 +7,33 @@
   overflow: hidden;
 }
 
+.festive-design--diwali .festive-design__banner {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  min-height: 2rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 0.35rem 1rem;
+  background: linear-gradient(
+    90deg,
+    var(--festive-diwali-purple),
+    #9f1239,
+    var(--festive-diwali-purple)
+  );
+  color: #fff7d6;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.festive-design--diwali .festive-design__banner span {
+  color: var(--festive-diwali-gold);
+  font-size: 1rem;
+}
+
 .festive-design--diwali .festive-design__glow {
   position: absolute;
   z-index: -1;

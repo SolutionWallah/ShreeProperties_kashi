@@ -14,6 +14,11 @@ export function DiwaliLayer({ children, theme }: DiwaliLayerProps) {
 
   return (
     <div className="festive-design festive-design--diwali" data-festive-theme={theme.name}>
+      <div className="festive-design__banner" role="status">
+        <span aria-hidden="true">✦</span>
+        Happy Diwali
+        <span aria-hidden="true">✦</span>
+      </div>
       <div className="festive-design__glow festive-design__glow--left" aria-hidden="true" />
       <div className="festive-design__glow festive-design__glow--right" aria-hidden="true" />
       <div className="festive-design__string-lights" aria-hidden="true">
