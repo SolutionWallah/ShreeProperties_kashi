@@ -1,7 +1,7 @@
 .festive-design--diwali {
-  --festive-diwali-gold: #f7c948;
-  --festive-diwali-orange: #f97316;
-  --festive-diwali-purple: #6d28d9;
+  --festive-diwali-gold: var(--color-orange);
+  --festive-diwali-orange: var(--color-orange);
+  --festive-diwali-purple: var(--color-green);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -47,7 +47,7 @@
   right: 0;
   left: 0;
   height: 1.5rem;
-  border-top: 1px solid rgb(109 40 217 / 35%);
+  border-top: 1px solid rgb(7 83 55 / 35%);
   border-radius: 50%;
   content: "";
 }
@@ -76,14 +76,14 @@
   left: 0;
   width: max-content;
   padding: 0.45rem 1rem;
-  background: rgb(109 40 217 / 88%);
-  color: #fff7d6;
+  background: var(--color-green);
+  color: var(--color-ivory);
   content: "✦ शुभ दीपावली ✦ आप सभी को दीपावली की हार्दिक शुभकामनाएं ✦";
   font-size: clamp(0.82rem, 1.5vw, 1rem);
   font-weight: 800;
   letter-spacing: 0.04em;
   white-space: nowrap;
-  box-shadow: 0 0.35rem 1rem rgb(109 40 217 / 22%);
+  box-shadow: 0 0.35rem 1rem rgb(7 83 55 / 22%);
   animation: festive-diwali-marquee 16s linear infinite;
   pointer-events: none;
 }
