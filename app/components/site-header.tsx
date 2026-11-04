@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { Icon } from "./icons";
 
-/** Displays the responsive public navigation and direct contact actions. */
 export function SiteHeader({ current = "home" }: { current?: "home" | "properties" }) {
   const [menuOpen, setMenuOpen] = useState(false);
 

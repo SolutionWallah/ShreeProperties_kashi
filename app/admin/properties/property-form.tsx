@@ -13,9 +13,9 @@ import {
 import { Icon } from "../../components/icons";
 import type { ListingKind, PropertyCategory } from "../../data/properties";
 import {
-  createAdminProperty,
-  loadAdminProperties,
-  saveAdminProperties,
+  createPropertyApi,
+  updatePropertyApi,
+  uploadImagesApi,
   type AdminStatus,
 } from "../data";
 
@@ -76,49 +76,22 @@ const emptyForm: FormValues = {
   highlights: [],
   published: true,
 };
+
 const listingOptions: Array<{ value: ListingKind; label: string; icon: "tag" | "key" | "file" }> = [
   { value: "Buy", label: "For Sale", icon: "tag" },
   { value: "Rent", label: "For Rent", icon: "key" },
   { value: "Commercial", label: "For Lease", icon: "file" },
 ];
+
 const statusOptions: Array<{ value: AdminStatus; icon: "check" | "tag" | "key" }> = [
   { value: "Available", icon: "check" },
   { value: "Sold", icon: "tag" },
   { value: "Rented", icon: "key" },
   { value: "Leased", icon: "key" },
 ];
+
 const fallbackImage = "/property-images/lanka-apartments.webp";
 
-/** Compresses an uploaded property photo into a browser-storable WebP thumbnail. */
-function compressPhoto(file: File) {
-  return new Promise<string>((resolve, reject) => {
-    const objectUrl = URL.createObjectURL(file);
-    const image = new window.Image();
-    image.onload = () => {
-      const scale = Math.min(1, 1400 / Math.max(image.naturalWidth, image.naturalHeight));
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.round(image.naturalWidth * scale);
-      canvas.height = Math.round(image.naturalHeight * scale);
-      const context = canvas.getContext("2d");
-      if (!context) {
-        URL.revokeObjectURL(objectUrl);
-        reject(new Error("Could not prepare this photo."));
-        return;
-      }
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      const compressed = canvas.toDataURL("image/webp", 0.78);
-      URL.revokeObjectURL(objectUrl);
-      resolve(compressed);
-    };
-    image.onerror = () => {
-      URL.revokeObjectURL(objectUrl);
-      reject(new Error("This photo could not be read."));
-    };
-    image.src = objectUrl;
-  });
-}
-
-/** Adds or edits an illustrative listing and saves it in this browser's admin store. */
 export function AdminPropertyForm() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -134,40 +107,58 @@ export function AdminPropertyForm() {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("edit");
     if (!id) return;
-    const record = loadAdminProperties().find((item) => item.id === id);
-    if (!record) return;
-    setEditId(id);
-    setValues({
-      ...emptyForm,
-      title: record.title,
-      kind: record.kind,
-      category: record.category,
-      bedrooms: record.bedrooms ?? "",
-      bathrooms: String(record.bathrooms ?? ""),
-      area: record.area,
-      price: record.price,
-      location: record.location,
-      description: record.description,
-      status: record.adminStatus,
-      published: record.published,
-      floor: record.floor ?? "",
-      totalFloors: record.totalFloors ?? "",
-      furnishing: record.furnishing ?? emptyForm.furnishing,
-      parking: record.parking ?? emptyForm.parking,
-      lift: record.lift ?? emptyForm.lift,
-      powerBackup: record.powerBackup ?? emptyForm.powerBackup,
-      commercialType: record.commercialType ?? emptyForm.commercialType,
-      landUse: record.landUse ?? emptyForm.landUse,
-      plotDimensions: record.plotDimensions ?? "",
-      roadWidth: record.roadWidth ?? "",
-      plotFacing: record.plotFacing ?? "",
-      boundaryWall: record.boundaryWall ?? "",
-      youtubeUrl: record.youtubeUrl ?? "",
-      googleMapsUrl: record.googleMapsUrl ?? "",
-      highlights: record.highlights ?? [],
-    });
-    setPreviews(record.photos?.length ? record.photos : [record.image]);
-    setPhotoFiles((record.photos?.length ? record.photos : [record.image]).map(() => null));
+
+    async function loadEditProperty() {
+      try {
+        const res = await fetch(`/api/properties/${encodeURIComponent(id!)}`, {
+          credentials: "include",
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        const record = data.property;
+        if (!record) return;
+
+        setEditId(record.slug || record.id);
+        setValues({
+          title: record.title ?? "",
+          kind: record.kind === "BUY" ? "Buy" : record.kind === "RENT" ? "Rent" : record.kind === "COMMERCIAL" ? "Commercial" : "Plots",
+          category: record.category === "RESIDENTIAL" ? "Residential" : record.category === "COMMERCIAL" ? "Commercial" : "Plot / Land",
+          bedrooms: record.bedrooms ?? "",
+          bathrooms: record.bathrooms ? String(record.bathrooms) : "",
+          area: String(record.areaSqFt ?? ""),
+          price: String(record.priceRupees ?? ""),
+          location: record.location ?? "",
+          description: record.description ?? "",
+          status: record.status === "SOLD" ? "Sold" : record.status === "RENTED" ? "Rented" : record.status === "LEASED" ? "Leased" : "Available",
+          published: Boolean(record.published ?? true),
+          floor: record.floor ?? "",
+          totalFloors: record.totalFloors ?? "",
+          furnishing: record.furnishing ?? emptyForm.furnishing,
+          parking: record.parking ?? emptyForm.parking,
+          lift: record.lift ?? emptyForm.lift,
+          powerBackup: record.powerBackup ?? emptyForm.powerBackup,
+          commercialType: record.commercialType ?? emptyForm.commercialType,
+          landUse: record.landUse ?? emptyForm.landUse,
+          plotDimensions: record.plotDimensions ?? "",
+          roadWidth: record.roadWidth ?? "",
+          plotFacing: record.plotFacing ?? "",
+          boundaryWall: record.boundaryWall ?? "",
+          youtubeUrl: record.youtubeUrl ?? "",
+          googleMapsUrl: record.googleMapsUrl ?? "",
+          highlights: Array.isArray(record.highlights) ? record.highlights : [],
+        });
+
+        const imageKeys = Array.isArray(record.images)
+          ? record.images.map((img: any) => img.objectKey).filter(Boolean)
+          : [];
+        setPreviews(imageKeys.length ? imageKeys : [fallbackImage]);
+        setPhotoFiles((imageKeys.length ? imageKeys : [fallbackImage]).map(() => null));
+      } catch {
+        setMessage("Could not load existing property details.");
+      }
+    }
+
+    loadEditProperty();
   }, []);
 
   useEffect(
@@ -178,10 +169,9 @@ export function AdminPropertyForm() {
     [],
   );
 
-  // Adds selected property photos and previews them before the form is saved.
   function addPhotos(files: FileList | File[]) {
     const valid = Array.from(files).filter(
-      (file) => /^image\/(jpeg|png|webp)$/.test(file.type) && file.size <= 5 * 1024 * 1024,
+      (file) => /^image\/(jpeg|png|webp|avif)$/.test(file.type) && file.size <= 10 * 1024 * 1024,
     );
     const available = Math.max(0, 10 - previews.length);
     const addedFiles = valid.slice(0, available);
@@ -190,10 +180,9 @@ export function AdminPropertyForm() {
     setPhotoFiles((current) => [...current, ...addedFiles]);
     setPreviews((current) => [...current, ...next]);
     if (valid.length !== files.length || valid.length > available)
-      setMessage("Use JPG, PNG, or WEBP photos up to 5 MB each, with 10 photos maximum.");
+      setMessage("Use JPG, PNG, WEBP, or AVIF photos up to 10 MB each, with 10 photos maximum.");
   }
 
-  // Updates one preview to become the cover photo in the form gallery.
   function setCover(index: number) {
     const nextPreviews = [
       previews[index],
@@ -208,7 +197,6 @@ export function AdminPropertyForm() {
     setPhotoFiles(nextFiles);
   }
 
-  // Removes a selected photo preview while releasing its temporary browser URL.
   function removePhoto(index: number) {
     const removed = previews[index];
     if (removed?.startsWith("blob:")) URL.revokeObjectURL(removed);
@@ -218,86 +206,110 @@ export function AdminPropertyForm() {
     setPhotoFiles(photoFiles.filter((_, itemIndex) => itemIndex !== index));
   }
 
-  // Saves the current form as a published listing or a draft record.
   async function saveForm(isDraft = false) {
     setIsSaving(true);
-    setMessage("Preparing property details and photos…");
-    const records = loadAdminProperties();
-    const existing = editId ? records.find((item) => item.id === editId) : undefined;
-    const record = createAdminProperty({
-      title: values.title.trim(),
-      kind: values.kind,
-      category: values.category,
-      location: values.location.trim(),
-      price: values.price.trim(),
-      priceValueLakh: Number(values.price.replace(/[^\d.]/g, "")) / 100000,
-      bedrooms: values.bedrooms.trim(),
-      bathrooms: Number(values.bathrooms),
-      area: values.area.trim(),
-      description: values.description.trim(),
-      adminStatus: values.status,
-      published: isDraft ? false : values.published,
-      floor: values.floor.trim(),
-      totalFloors: values.totalFloors.trim(),
-      furnishing: values.furnishing,
-      parking: values.parking,
-      lift: values.lift,
-      powerBackup: values.powerBackup,
-      commercialType: values.commercialType,
-      landUse: values.landUse,
-      plotDimensions: values.plotDimensions.trim(),
-      roadWidth: values.roadWidth.trim(),
-      plotFacing: values.plotFacing,
-      boundaryWall: values.boundaryWall,
-      youtubeUrl: values.youtubeUrl.trim(),
-      googleMapsUrl: values.googleMapsUrl.trim(),
-      highlights: values.highlights
-        .map((highlight) => highlight.trim())
-        .filter(Boolean)
-        .slice(0, 5),
-    });
+    setMessage("Saving property to server...");
+
+    const cleanPrice = Number(values.price.replace(/[^\d.]/g, ""));
+    const cleanArea = Number(values.area.replace(/[^\d.]/g, ""));
+
+    if (!values.title.trim()) {
+      setMessage("Title is required.");
+      setIsSaving(false);
+      return;
+    }
+    if (!values.location.trim()) {
+      setMessage("Location is required.");
+      setIsSaving(false);
+      return;
+    }
+    if (!cleanPrice || cleanPrice < 0) {
+      setMessage("Please enter a valid price.");
+      setIsSaving(false);
+      return;
+    }
+    if (!cleanArea || cleanArea <= 0) {
+      setMessage("Please enter a valid area in sq ft.");
+      setIsSaving(false);
+      return;
+    }
+
     try {
-      const savedPhotos = await Promise.all(
-        previews.map((preview, index) =>
-          photoFiles[index] ? compressPhoto(photoFiles[index] as File) : Promise.resolve(preview),
-        ),
-      );
-      const nextRecord = {
-        ...record,
-        id: existing?.id ?? record.id,
-        image: savedPhotos[0] ?? fallbackImage,
-        photos: savedPhotos,
+      setMessage("Uploading photos...");
+      const validPhotos: string[] = [];
+      for (let i = 0; i < previews.length; i++) {
+        const file = photoFiles[i];
+        if (file) {
+          setMessage(`Uploading photo ${i + 1} of ${previews.length}...`);
+          const uploadedUrls = await uploadImagesApi([file]);
+          if (uploadedUrls[0]) {
+            validPhotos.push(uploadedUrls[0]);
+          }
+        } else if (previews[i] && !previews[i].startsWith("blob:")) {
+          validPhotos.push(previews[i]);
+        }
+      }
+
+      const finalPhotos = validPhotos.length ? validPhotos : [fallbackImage];
+
+      const payload = {
+        title: values.title.trim(),
+        kind: values.kind,
+        category: values.category,
+        location: values.location.trim(),
+        priceRupees: cleanPrice,
+        areaSqFt: cleanArea,
+        description: values.description.trim() || values.title.trim(),
+        status: values.status,
+        published: isDraft ? false : values.published,
+        bedrooms: values.category === "Residential" ? values.bedrooms.trim() || null : null,
+        bathrooms: values.category !== "Plot / Land" && values.bathrooms ? Number(values.bathrooms) : null,
+        floor: values.category !== "Plot / Land" ? values.floor.trim() || null : null,
+        totalFloors: values.category !== "Plot / Land" ? values.totalFloors.trim() || null : null,
+        furnishing: values.category === "Residential" ? values.furnishing || null : null,
+        parking: values.category !== "Plot / Land" ? values.parking || null : null,
+        lift: values.category !== "Plot / Land" ? values.lift || null : null,
+        powerBackup: values.category !== "Plot / Land" ? values.powerBackup || null : null,
+        commercialType: values.category === "Commercial" ? values.commercialType || null : null,
+        landUse: values.category === "Plot / Land" ? values.landUse || null : null,
+        plotDimensions: values.category === "Plot / Land" ? values.plotDimensions.trim() || null : null,
+        roadWidth: values.category === "Plot / Land" ? values.roadWidth.trim() || null : null,
+        plotFacing: values.category === "Plot / Land" ? values.plotFacing || null : null,
+        boundaryWall: values.category === "Plot / Land" ? values.boundaryWall || null : null,
+        youtubeUrl: values.youtubeUrl.trim() || null,
+        googleMapsUrl: values.googleMapsUrl.trim() || null,
+        highlights: values.highlights.map((h) => h.trim()).filter(Boolean).slice(0, 5),
+        photos: finalPhotos,
       };
-      saveAdminProperties(
-        existing
-          ? records.map((item) => (item.id === existing.id ? nextRecord : item))
-          : [nextRecord, ...records],
-      );
+
+      if (editId) {
+        await updatePropertyApi(editId, payload);
+      } else {
+        await createPropertyApi(payload);
+      }
+
       router.push("/admin/properties");
-    } catch {
-      setMessage("Could not save this listing. Try fewer or smaller photos.");
+      router.refresh();
+    } catch (err: any) {
+      setMessage(err.message || "Could not save property to server.");
       setIsSaving(false);
     }
   }
 
-  // Validates the required fields before saving the listing.
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await saveForm(false);
   }
 
-  // Saves a draft only after the required listing details pass browser validation.
   async function handleDraft() {
     const form = document.querySelector<HTMLFormElement>(".admin-form");
     if (form?.reportValidity()) await saveForm(true);
   }
 
-  // Updates one named field while preserving the rest of the current form.
   function updateField<K extends keyof FormValues>(key: K, value: FormValues[K]) {
     setValues((current) => ({ ...current, [key]: value }));
   }
 
-  // Clears fields that do not apply when a listing changes property category.
   function changeCategory(category: PropertyCategory) {
     setValues((current) => ({
       ...current,
@@ -319,12 +331,10 @@ export function AdminPropertyForm() {
     }));
   }
 
-  // Adds one blank property highlight until the five-point limit is reached.
   function addHighlight() {
     if (values.highlights.length < 5) updateField("highlights", [...values.highlights, ""]);
   }
 
-  // Updates one property highlight while keeping the other points in order.
   function updateHighlight(index: number, value: string) {
     updateField(
       "highlights",
@@ -332,7 +342,6 @@ export function AdminPropertyForm() {
     );
   }
 
-  // Removes one property highlight from the editable points list.
   function removeHighlight(index: number) {
     updateField(
       "highlights",
@@ -340,19 +349,16 @@ export function AdminPropertyForm() {
     );
   }
 
-  // Opens the native photo picker from the illustrated upload target.
   function openFilePicker() {
     inputRef.current?.click();
   }
 
-  // Adds dropped images and resets the upload target's drag state.
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
     setIsDragging(false);
     addPhotos(event.dataTransfer.files);
   }
 
-  // Handles file picker changes and allows the same image to be picked again later.
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     if (event.target.files) addPhotos(event.target.files);
     event.target.value = "";
@@ -602,7 +608,7 @@ export function AdminPropertyForm() {
             className="visually-hidden"
             ref={inputRef}
             type="file"
-            accept="image/jpeg,image/png,image/webp"
+            accept="image/jpeg,image/png,image/webp,image/avif"
             multiple
             onChange={handleFileChange}
           />
@@ -622,7 +628,7 @@ export function AdminPropertyForm() {
             <Icon name="upload" />
             <strong>Upload Property Photos</strong>
             <span>Drag &amp; drop images here or click to browse</span>
-            <small>JPG, PNG, WEBP · Up to 10 photos · Max 5 MB each</small>
+            <small>JPG, PNG, WEBP, AVIF · Up to 10 photos · Max 10 MB each</small>
           </div>
           <div className="admin-photo-grid">
             {previews.map((preview, index) => (
@@ -880,7 +886,6 @@ export function AdminPropertyForm() {
   );
 }
 
-/** Provides a consistently labeled field wrapper for the property form. */
 function FormField({
   label,
   required,
@@ -901,7 +906,6 @@ function FormField({
   );
 }
 
-/** Renders one key specification control with its supporting icon. */
 function SpecField({
   icon,
   label,

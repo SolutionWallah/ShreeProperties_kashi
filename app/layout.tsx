@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: "Explore homes, commercial spaces, and land in Varanasi with Shree Property Kashi.",
 };
 
-/** Provides shared document metadata, global styling, and the footer. */
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">

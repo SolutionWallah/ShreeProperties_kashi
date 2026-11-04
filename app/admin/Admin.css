@@ -1411,3 +1411,187 @@ body:has(.admin-shell) > .footer {
     font-size: 0.82rem;
   }
 }
+
+.admin-login-shell {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--color-ivory);
+}
+.admin-login-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-line);
+  background: var(--color-paper);
+  padding: 2.25rem 2rem 1.25rem;
+  box-shadow: var(--shadow-lift);
+}
+.admin-login-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.admin-login-logo {
+  display: flex;
+  width: 52px;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-green-soft);
+  color: var(--color-orange);
+  margin-bottom: 0.75rem;
+}
+.admin-login-logo .icon {
+  width: 32px;
+  height: 32px;
+}
+.admin-login-brand h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  margin: 0;
+}
+.admin-login-tagline {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin: 0.25rem 0 0;
+}
+.admin-login-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.admin-login-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--color-green-deep);
+  margin: 0 0 0.35rem;
+}
+.admin-login-header p {
+  font-size: 0.92rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+.admin-login-error {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius-sm);
+  background: #fef2f2;
+  border: 1px solid #f87171;
+  color: #991b1b;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.admin-login-form {
+  display: grid;
+  gap: 1.15rem;
+}
+.admin-login-field {
+  display: grid;
+  gap: 0.4rem;
+}
+.admin-login-field label {
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--color-ink);
+}
+.admin-login-input-wrap {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-line);
+  background: var(--color-white);
+  padding: 0 0.85rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.admin-login-input-wrap:focus-within {
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgb(7 83 55 / 12%);
+}
+.admin-login-input-wrap .icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+.admin-login-input-wrap input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  outline: none;
+  font-family: inherit;
+}
+.admin-login-toggle {
+  border: none;
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-green);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+.admin-login-submit {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-green);
+  color: var(--color-white);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.15s ease;
+}
+.admin-login-submit:hover:not(:disabled) {
+  background: var(--color-green-deep);
+}
+.admin-login-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.admin-login-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+.admin-login-back {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+.admin-login-back:hover {
+  color: var(--color-ink);
+}
+.admin-login-back .icon {
+  width: 14px;
+  height: 14px;
+}
+.admin-login-art {
+  width: 100%;
+  height: auto;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  opacity: 0.35;
+  margin-top: 1.5rem;
+  display: block;
+}

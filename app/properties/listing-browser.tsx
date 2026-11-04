@@ -4,11 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Icon } from "../components/icons";
 import { PropertyCard } from "../components/property-card";
 import { properties } from "../data/properties";
-import type { ListingKind, PropertyCategory } from "../data/properties";
+import type { ListingKind, Property, PropertyCategory } from "../data/properties";
 
 const kinds: ListingKind[] = ["Buy", "Rent", "Commercial", "Plots"];
 const categories: PropertyCategory[] = ["Residential", "Commercial", "Plot / Land"];
-const locations = ["All Locations", "Lanka", "Godowlia", "Sigra", "Bhelupur", "Cantt", "Paharia"];
 
 type Filters = {
   kinds: ListingKind[];
@@ -18,6 +17,7 @@ type Filters = {
   max: string;
   query: string;
 };
+
 const emptyFilters: Filters = {
   kinds: [],
   categories: [],
@@ -27,11 +27,30 @@ const emptyFilters: Filters = {
   query: "",
 };
 
-/** Provides searchable, filterable property listings with stable local state. */
-export function ListingBrowser() {
+export function ListingBrowser({
+  initialProperties,
+}: {
+  initialProperties?: Property[];
+}) {
   const [draft, setDraft] = useState<Filters>({ ...emptyFilters });
   const [active, setActive] = useState<Filters>({ ...emptyFilters });
   const [sort, setSort] = useState("newest");
+
+  const sourceProperties = useMemo(() => {
+    return initialProperties && initialProperties.length > 0 ? initialProperties : properties;
+  }, [initialProperties]);
+
+  const availableLocations = useMemo(() => {
+    const baseLocations = ["All Locations", "Lanka", "Godowlia", "Sigra", "Bhelupur", "Cantt", "Paharia"];
+    const set = new Set(baseLocations);
+    for (const item of sourceProperties) {
+      if (item.location) {
+        const primaryLoc = item.location.split(",")[0].trim();
+        if (primaryLoc) set.add(primaryLoc);
+      }
+    }
+    return Array.from(set);
+  }, [sourceProperties]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -46,13 +65,14 @@ export function ListingBrowser() {
 
   const filtered = useMemo(() => {
     const query = active.query.trim().toLowerCase();
-    return properties
+    return sourceProperties
       .filter((property) => {
         const matchesKind = active.kinds.length === 0 || active.kinds.includes(property.kind);
         const matchesCategory =
           active.categories.length === 0 || active.categories.includes(property.category);
         const matchesLocation =
-          active.location === "All Locations" || property.location.startsWith(active.location);
+          active.location === "All Locations" ||
+          property.location.toLowerCase().includes(active.location.toLowerCase());
         const matchesQuery =
           !query || `${property.title} ${property.location}`.toLowerCase().includes(query);
         const matchesPrice =
@@ -65,11 +85,10 @@ export function ListingBrowser() {
           ? a.priceValueLakh - b.priceValueLakh
           : sort === "price-high"
             ? b.priceValueLakh - a.priceValueLakh
-            : properties.indexOf(a) - properties.indexOf(b),
+            : sourceProperties.indexOf(a) - sourceProperties.indexOf(b),
       );
-  }, [active, sort]);
+  }, [sourceProperties, active, sort]);
 
-  // Toggles one selected option while preserving the remaining filter choices.
   function toggleValue<T extends string>(key: "kinds" | "categories", value: T, checked: boolean) {
     setDraft((current) => ({
       ...current,
@@ -77,16 +96,16 @@ export function ListingBrowser() {
     }));
   }
 
-  // Applies the draft sidebar filters to the visible listings.
   function applyFilters() {
     setActive({ ...draft });
   }
 
-  // Clears every sidebar and search condition in one action.
   function resetFilters() {
     setDraft({ ...emptyFilters });
     setActive({ ...emptyFilters });
   }
+
+  const isLiveDb = Boolean(initialProperties && initialProperties.length > 0);
 
   return (
     <div className="shell listing-layout">
@@ -138,7 +157,7 @@ export function ListingBrowser() {
             value={draft.location}
             onChange={(event) => setDraft({ ...draft, location: event.target.value })}
           >
-            {locations.map((location) => (
+            {availableLocations.map((location) => (
               <option key={location}>{location}</option>
             ))}
           </select>
@@ -182,7 +201,7 @@ export function ListingBrowser() {
               {filtered.length} {filtered.length === 1 ? "Property" : "Properties"} Found
             </div>
             <span className="sample-note">
-              Illustrative listings based on the supplied design references.
+              {isLiveDb ? "Showing verified listings in Varanasi." : "Illustrative listings based on the supplied design references."}
             </span>
           </div>
           <div className="toolbar-actions">

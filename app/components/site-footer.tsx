@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Icon } from "./icons";
 
-/** Renders the shared contact footer with riverside art as its own image element. */
 export function SiteFooter() {
   return (
     <footer className="footer" id="contact">

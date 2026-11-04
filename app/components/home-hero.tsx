@@ -1,6 +1,5 @@
 import { Icon } from "./icons";
 
-/** Introduces the Varanasi service and puts direct contact actions first. */
 export function HomeHero() {
   return (
     <section className="home-hero" aria-labelledby="home-title">

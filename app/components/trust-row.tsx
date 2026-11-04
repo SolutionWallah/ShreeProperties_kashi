@@ -8,7 +8,6 @@ const reasons = [
   { icon: "sprout" as const, label: "Plots & Land Solutions" },
 ];
 
-/** Summarizes the service areas with compact icons and readable labels. */
 export function TrustRow() {
   return (
     <section className="shell trust-row" id="services" aria-label="How we help">

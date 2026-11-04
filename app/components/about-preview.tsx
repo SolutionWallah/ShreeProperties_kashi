@@ -1,6 +1,5 @@
 import { Icon } from "./icons";
 
-/** Introduces the named consultant without inventing a substitute portrait. */
 export function AboutPreview() {
   return (
     <section className="shell about-section" id="about" aria-labelledby="about-title">

@@ -254,7 +254,6 @@ const iconPaths: Record<IconName, ReactNode> = {
   ),
 };
 
-/** Renders a consistent line icon from the shared project icon set. */
 export function Icon({ name, ...props }: SVGProps<SVGSVGElement> & { name: IconName }) {
   const isBrandWhatsapp = name === "whatsapp";
   return (

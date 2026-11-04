@@ -2,62 +2,69 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Icon } from "../../components/icons";
 import type { AdminProperty, AdminStatus } from "../data";
-import { getInitialAdminProperties, loadAdminProperties, saveAdminProperties } from "../data";
+import { deletePropertyApi, fetchAdminPropertiesList, updatePropertyApi } from "../data";
 
 const filters: Array<"All" | AdminStatus> = ["All", "Available", "Sold", "Rented", "Leased"];
 const pageSize = 6;
+const fallbackImage = "/property-images/lanka-apartments.webp";
 
-/** Filters, paginates, and updates the local prototype property inventory. */
 export function AdminPropertyManager() {
-  const [records, setRecords] = useState<AdminProperty[]>(getInitialAdminProperties);
+  const [records, setRecords] = useState<AdminProperty[]>([]);
   const [filter, setFilter] = useState<(typeof filters)[number]>("All");
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  useEffect(() => setRecords(loadAdminProperties()), []);
+  const loadProperties = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await fetchAdminPropertiesList({
+        page,
+        limit: pageSize,
+        status: filter,
+        query: query.trim() || undefined,
+      });
+      setRecords(data.properties);
+      setTotal(data.total);
+      setTotalPages(data.totalPages);
+    } catch (err: any) {
+      setError(err.message || "Failed to load properties from server.");
+    } finally {
+      setLoading(false);
+    }
+  }, [page, filter, query]);
 
-  const filtered = useMemo(() => {
-    const normalized = query.trim().toLowerCase();
-    return records.filter(
-      (record) =>
-        (filter === "All" || record.adminStatus === filter) &&
-        (!normalized || `${record.title} ${record.location}`.toLowerCase().includes(normalized)),
-    );
-  }, [filter, query, records]);
-  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
-  const visibleRecords = filtered.slice((page - 1) * pageSize, page * pageSize);
+  useEffect(() => {
+    loadProperties();
+  }, [loadProperties]);
 
-  // Saves changed property records to the browser's local prototype store.
-  function updateRecords(next: AdminProperty[]) {
-    setRecords(next);
-    saveAdminProperties(next);
+  async function toggleSold(record: AdminProperty) {
+    try {
+      const nextStatus: AdminStatus = record.adminStatus === "Available" ? "Sold" : "Available";
+      await updatePropertyApi(record.slug || record.id, {
+        status: nextStatus,
+      });
+      await loadProperties();
+    } catch (err: any) {
+      alert(`Could not update status: ${err.message}`);
+    }
   }
 
-  // Changes a listing between available and sold from its row action.
-  function toggleSold(record: AdminProperty) {
-    updateRecords(
-      records.map((item) =>
-        item.id === record.id
-          ? { ...item, adminStatus: item.adminStatus === "Available" ? "Sold" : "Available" }
-          : item,
-      ),
-    );
-  }
-
-  // Removes one listing from the current browser's admin inventory.
-  function deleteRecord(record: AdminProperty) {
-    if (!window.confirm(`Delete “${record.title}” from this browser's admin list?`)) return;
-    updateRecords(records.filter((item) => item.id !== record.id));
-  }
-
-  // Counts each status from the complete record set for the status tabs.
-  function getFilterCount(status: (typeof filters)[number]) {
-    return status === "All"
-      ? records.length
-      : records.filter((record) => record.adminStatus === status).length;
+  async function deleteRecord(record: AdminProperty) {
+    if (!window.confirm(`Are you sure you want to delete "${record.title}"?`)) return;
+    try {
+      await deletePropertyApi(record.slug || record.id);
+      await loadProperties();
+    } catch (err: any) {
+      alert(`Could not delete property: ${err.message}`);
+    }
   }
 
   return (
@@ -65,13 +72,14 @@ export function AdminPropertyManager() {
       <div className="admin-panel-heading">
         <h2 id="admin-list-title">
           <Icon name="building" />
-          Added Properties <span>({records.length})</span>
+          Added Properties <span>({total})</span>
         </h2>
         <Link className="admin-button admin-button--primary" href="/admin/properties/new">
           <Icon name="plus" />
           Add Property
         </Link>
       </div>
+
       <div className="admin-toolbar">
         <div className="admin-status-tabs" role="group" aria-label="Filter by listing status">
           {filters.map((status) => (
@@ -85,7 +93,7 @@ export function AdminPropertyManager() {
                 setPage(1);
               }}
             >
-              {status} <span>({getFilterCount(status)})</span>
+              {status}
             </button>
           ))}
         </div>
@@ -102,6 +110,13 @@ export function AdminPropertyManager() {
           />
         </label>
       </div>
+
+      {error && (
+        <div style={{ padding: "1rem", margin: "1rem 0", background: "#fef2f2", color: "#991b1b", borderRadius: "8px" }}>
+          {error}
+        </div>
+      )}
+
       <div className="admin-table-scroll">
         <table className="admin-table">
           <thead>
@@ -116,29 +131,37 @@ export function AdminPropertyManager() {
             </tr>
           </thead>
           <tbody>
-            {visibleRecords.map((record) => (
-              <AdminPropertyRow
-                key={record.id}
-                record={record}
-                onToggleStatus={toggleSold}
-                onDelete={deleteRecord}
-              />
-            ))}
-            {!visibleRecords.length && (
+            {loading ? (
               <tr>
                 <td className="admin-empty" colSpan={7}>
-                  <strong>No properties found</strong>
-                  <span>Try another search or status filter.</span>
+                  <strong>Loading properties...</strong>
+                </td>
+              </tr>
+            ) : records.length > 0 ? (
+              records.map((record) => (
+                <AdminPropertyRow
+                  key={record.id}
+                  record={record}
+                  onToggleStatus={toggleSold}
+                  onDelete={deleteRecord}
+                />
+              ))
+            ) : (
+              <tr>
+                <td className="admin-empty" colSpan={7}>
+                  <strong>No properties found in database</strong>
+                  <span>Click "Add Property" to create your first listing.</span>
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
       <div className="admin-pagination">
         <span>
-          Showing {filtered.length ? (page - 1) * pageSize + 1 : 0}–
-          {Math.min(page * pageSize, filtered.length)} of {filtered.length} properties
+          Showing {total ? (page - 1) * pageSize + 1 : 0}–
+          {Math.min(page * pageSize, total)} of {total} properties
         </span>
         <div>
           <button type="button" disabled={page <= 1} onClick={() => setPage(page - 1)}>
@@ -146,7 +169,7 @@ export function AdminPropertyManager() {
             Previous
           </button>
           <span className="admin-page-number">{page}</span>
-          <button type="button" disabled={page >= pageCount} onClick={() => setPage(page + 1)}>
+          <button type="button" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
             Next
             <Icon name="chevron" />
           </button>
@@ -156,7 +179,6 @@ export function AdminPropertyManager() {
   );
 }
 
-/** Renders one inventory row with category, status, and available actions. */
 function AdminPropertyRow({
   record,
   onToggleStatus,
@@ -184,7 +206,7 @@ function AdminPropertyRow({
       <td>
         <Image
           className="admin-property-image"
-          src={record.image}
+          src={record.image || fallbackImage}
           alt={`${record.title} exterior`}
           width={128}
           height={72}
@@ -219,7 +241,7 @@ function AdminPropertyRow({
         <div className="admin-row-actions">
           <Link
             className="admin-button admin-button--edit"
-            href={`/admin/properties/new?edit=${encodeURIComponent(record.id)}`}
+            href={`/admin/properties/new?edit=${encodeURIComponent(record.slug || record.id)}`}
           >
             <Icon name="edit" />
             Edit

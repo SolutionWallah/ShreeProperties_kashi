@@ -8,7 +8,6 @@ const points = [
   "Guidance for homes, business, and land",
 ];
 
-/** Gives the local-service promise a distinct, quiet deep-green section. */
 export function TrustBand() {
   return (
     <section className="trust-band">

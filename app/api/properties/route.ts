@@ -1,4 +1,5 @@
-import { listPublishedProperties } from "../../services/property-service";
+import { requireAdminSession } from "../../lib/auth/server";
+import { createProperty, listPublishedProperties } from "../../services/property-service";
 
 export const runtime = "nodejs";
 
@@ -22,5 +23,26 @@ export async function GET(request: Request) {
     return Response.json(await listPublishedProperties(page, limit));
   } catch {
     return Response.json({ error: "Properties are temporarily unavailable" }, { status: 503 });
+  }
+}
+
+export async function POST(request: Request) {
+  const authCheck = await requireAdminSession();
+  if (authCheck.error) {
+    return authCheck.error;
+  }
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json({ error: "Invalid JSON payload" }, { status: 400 });
+  }
+
+  try {
+    const property = await createProperty(body);
+    return Response.json({ property }, { status: 201 });
+  } catch (err: any) {
+    return Response.json({ error: err.message || "Failed to create property" }, { status: 400 });
   }
 }

@@ -7,19 +7,24 @@ import { properties } from "../data/properties";
 import type { Property, PropertyDetailContent } from "../data/properties";
 import { PropertyCard } from "./property-card";
 
-/** Renders the reusable property gallery, contact panel, and information sections. */
 export function PropertyDetailView({
   property,
   details,
+  similarProperties,
 }: {
   property: Property;
   details: PropertyDetailContent | null;
+  similarProperties?: Property[];
 }) {
-  const photos = details?.gallery ?? [property.image];
+  const photos = details?.gallery && details.gallery.length > 0 ? details.gallery : [property.image];
   const [activePhoto, setActivePhoto] = useState(0);
   const [saved, setSaved] = useState(false);
   const [shareMessage, setShareMessage] = useState("");
-  const similarProperties = properties.filter((item) => item.id !== property.id).slice(0, 3);
+  const similarList =
+    similarProperties && similarProperties.length > 0
+      ? similarProperties
+      : properties.filter((item) => item.id !== property.id && item.slug !== property.slug).slice(0, 3);
+
   const facts = [
     { icon: "bed" as const, value: property.bedrooms ?? property.category },
     {
@@ -36,7 +41,6 @@ export function PropertyDetailView({
     ...(details?.powerBackup ? [{ icon: "bolt" as const, value: details.powerBackup }] : []),
   ];
 
-  // Shares the current property page and reports when it has been copied.
   async function handleShare() {
     const url = window.location.href;
     try {
@@ -49,6 +53,8 @@ export function PropertyDetailView({
       setShareMessage("Could not share this link");
     }
   }
+
+  const isVerifiedListing = property.slug && !["lanka-flat", "godowlia-commercial", "sigra-house", "bhelupur-flat", "cantt-office", "paharia-plot"].includes(property.slug);
 
   return (
     <main className="property-detail-page">
@@ -185,7 +191,7 @@ export function PropertyDetailView({
                 `${property.title} in ${property.location}. Contact us for current availability and more details.`}
             </p>
             <span className="sample-note">
-              Illustrative listing details based on the supplied design references.
+              {isVerifiedListing ? "Verified listing details for Shree Property Kashi." : "Illustrative listing details based on the supplied design references."}
             </span>
           </section>
           <div className="detail-information-grid">
@@ -206,7 +212,7 @@ export function PropertyDetailView({
                 </p>
               )}
             </section>
-            {details?.highlights && (
+            {details?.highlights && details.highlights.length > 0 && (
               <section className="detail-highlights">
                 <h2>Property Highlights</h2>
                 <ul>
@@ -230,13 +236,25 @@ export function PropertyDetailView({
               </div>
               <a
                 className="button button--outline map-link"
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${property.location}, India`)}`}
+                href={details?.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${property.location}, India`)}`}
                 target="_blank"
                 rel="noreferrer"
               >
                 <Icon name="map" />
                 View in Google Maps
               </a>
+              {details?.youtubeUrl && (
+                <a
+                  className="button button--light video-link"
+                  href={details.youtubeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", marginTop: "0.75rem" }}
+                >
+                  <Icon name="arrow" />
+                  Watch Video Tour
+                </a>
+              )}
             </section>
           </div>
         </div>
@@ -249,7 +267,7 @@ export function PropertyDetailView({
             </Link>
           </div>
           <div className="property-grid">
-            {similarProperties.map((item) => (
+            {similarList.map((item) => (
               <PropertyCard key={item.id} property={item} />
             ))}
           </div>

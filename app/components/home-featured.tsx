@@ -4,19 +4,29 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { PropertyCard } from "./property-card";
 import { getListingFilters, properties } from "../data/properties";
-import type { ListingKind } from "../data/properties";
+import type { Property } from "../data/properties";
 
-/** Filters the featured property cards and links to the full discovery route. */
-export function HomeFeatured() {
+export function HomeFeatured({
+  initialProperties,
+}: {
+  initialProperties?: Property[];
+}) {
   const [activeFilter, setActiveFilter] = useState("All");
   const filters = getListingFilters();
+
+  const sourceProperties = useMemo(() => {
+    return initialProperties && initialProperties.length > 0 ? initialProperties : properties;
+  }, [initialProperties]);
+
   const featured = useMemo(
     () =>
       activeFilter === "All"
-        ? properties.slice(0, 3)
-        : properties.filter((property) => property.kind === activeFilter).slice(0, 3),
-    [activeFilter],
+        ? sourceProperties.slice(0, 3)
+        : sourceProperties.filter((property) => property.kind === activeFilter).slice(0, 3),
+    [sourceProperties, activeFilter],
   );
+
+  const isLiveDb = Boolean(initialProperties && initialProperties.length > 0);
 
   return (
     <section className="shell featured-section" aria-labelledby="featured-title">
@@ -41,7 +51,9 @@ export function HomeFeatured() {
           ))}
         </div>
       </div>
-      <p className="sample-note">Illustrative listings based on the supplied design references.</p>
+      <p className="sample-note">
+        {isLiveDb ? "Handpicked verified properties in Varanasi." : "Illustrative listings based on the supplied design references."}
+      </p>
       {featured.length > 0 ? (
         <div className="property-grid">
           {featured.map((property) => (

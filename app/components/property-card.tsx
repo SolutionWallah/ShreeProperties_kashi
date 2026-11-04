@@ -5,15 +5,17 @@ import { Icon } from "./icons";
 import Link from "next/link";
 import type { Property } from "../data/properties";
 
-/** Shows a property photo, essential facts, price, and a local save control. */
 export function PropertyCard({ property }: { property: Property }) {
   const [saved, setSaved] = useState(false);
   const isLease = property.status === "For Lease";
+  const propertySlug = property.slug || property.id;
 
   return (
     <article className="property-card">
       <div className="property-photo-wrap">
-        <img className="property-photo" src={property.image} alt={`${property.title} exterior`} />
+        <Link href={`/properties/${propertySlug}`} aria-label={`View ${property.title} details`}>
+          <img className="property-photo" src={property.image} alt={`${property.title} exterior`} />
+        </Link>
         <span className={`listing-badge ${isLease ? "listing-badge--green" : ""}`}>
           {property.status}
         </span>
@@ -30,7 +32,11 @@ export function PropertyCard({ property }: { property: Property }) {
         </button>
       </div>
       <div className="property-content">
-        <h3>{property.title}</h3>
+        <h3>
+          <Link href={`/properties/${propertySlug}`} style={{ textDecoration: "none", color: "inherit" }}>
+            {property.title}
+          </Link>
+        </h3>
         <div className="property-location">
           <Icon name="pin" />
           {property.location}
@@ -63,7 +69,7 @@ export function PropertyCard({ property }: { property: Property }) {
           <strong className="property-price">{property.price}</strong>
           <Link
             className="circle-link"
-            href={`/properties/${property.id}`}
+            href={`/properties/${propertySlug}`}
             aria-label={`View ${property.title} details`}
           >
             <Icon name="arrow" />

@@ -2,15 +2,83 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, type ReactNode } from "react";
 import { Icon } from "../components/icons";
+import { authClient } from "../lib/auth/client";
 import "./Admin.css";
 
-/** Provides the shared admin navigation and page header for property management routes. */
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const isLoginPage = pathname === "/admin/login";
   const adding = pathname.endsWith("/new");
+
+  const [loading, setLoading] = useState(!isLoginPage);
+  const [userName, setUserName] = useState("Ashutosh Singh");
+
+  useEffect(() => {
+    if (isLoginPage) return;
+
+    let mounted = true;
+
+    async function checkAuth() {
+      try {
+        const response = await fetch("/api/auth/get-session", {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          if (mounted) router.replace("/admin/login");
+          return;
+        }
+
+        const data = await response.json();
+
+        if (!data || !data.user) {
+          if (mounted) router.replace("/admin/login");
+          return;
+        }
+
+        if (mounted) {
+          if (data.user.name) setUserName(data.user.name);
+          setLoading(false);
+        }
+      } catch {
+        if (mounted) router.replace("/admin/login");
+      }
+    }
+
+    checkAuth();
+
+    return () => {
+      mounted = false;
+    };
+  }, [isLoginPage, router]);
+
+  async function handleLogout(event: React.MouseEvent) {
+    event.preventDefault();
+    try {
+      await authClient.signOut();
+    } finally {
+      router.replace("/admin/login");
+      router.refresh();
+    }
+  }
+
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  if (loading) {
+    return (
+      <div className="admin-login-shell">
+        <div style={{ textAlign: "center", color: "var(--color-muted)", fontWeight: 600 }}>
+          Verifying administrator credentials...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-shell">
@@ -36,10 +104,23 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <Icon name="plus" />
             Add Property
           </Link>
-          <Link className="admin-logout" href="/">
+          <button
+            type="button"
+            className="admin-logout"
+            onClick={handleLogout}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: "inherit",
+              font: "inherit",
+              cursor: "pointer",
+              textAlign: "left",
+              width: "100%",
+            }}
+          >
             <Icon name="logout" />
             Logout
-          </Link>
+          </button>
         </nav>
         <Image
           className="admin-sidebar-art"
@@ -78,7 +159,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               <Icon name="user" />
             </span>
             <div>
-              <strong>Ashutosh Singh</strong>
+              <strong>{userName}</strong>
               <small>(Admin)</small>
             </div>
             <Icon name="chevron" />
