@@ -1,7 +1,7 @@
 import { SiteHeader } from "../components/site-header";
 import { ListingBrowser } from "./listing-browser";
 import { listPublishedProperties } from "../services/property-service";
-import { mapDbPropertyToPublic, properties } from "../data/properties";
+import { mapDbPropertyToPublic } from "../data/properties";
 import type { Property } from "../data/properties";
 
 export const dynamic = "force-dynamic";
@@ -15,10 +15,6 @@ export default async function PropertiesPage() {
       initialProperties = result.properties.map(mapDbPropertyToPublic);
     }
   } catch {}
-
-  if (initialProperties.length === 0) {
-    initialProperties = properties;
-  }
 
   return (
     <>

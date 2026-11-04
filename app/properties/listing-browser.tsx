@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Icon } from "../components/icons";
 import { PropertyCard } from "../components/property-card";
-import { properties } from "../data/properties";
 import type { ListingKind, Property, PropertyCategory } from "../data/properties";
 
 const kinds: ListingKind[] = ["Buy", "Rent", "Commercial", "Plots"];
@@ -37,12 +36,11 @@ export function ListingBrowser({
   const [sort, setSort] = useState("newest");
 
   const sourceProperties = useMemo(() => {
-    return initialProperties && initialProperties.length > 0 ? initialProperties : properties;
+    return initialProperties || [];
   }, [initialProperties]);
 
   const availableLocations = useMemo(() => {
-    const baseLocations = ["All Locations", "Lanka", "Godowlia", "Sigra", "Bhelupur", "Cantt", "Paharia"];
-    const set = new Set(baseLocations);
+    const set = new Set(["All Locations"]);
     for (const item of sourceProperties) {
       if (item.location) {
         const primaryLoc = item.location.split(",")[0].trim();

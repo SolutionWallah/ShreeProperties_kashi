@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { PropertyCard } from "./property-card";
-import { getListingFilters, properties } from "../data/properties";
+import { getListingFilters } from "../data/properties";
 import type { Property } from "../data/properties";
 
 export function HomeFeatured({
@@ -15,7 +15,7 @@ export function HomeFeatured({
   const filters = getListingFilters();
 
   const sourceProperties = useMemo(() => {
-    return initialProperties && initialProperties.length > 0 ? initialProperties : properties;
+    return initialProperties && initialProperties.length > 0 ? initialProperties : [];
   }, [initialProperties]);
 
   const featured = useMemo(
@@ -25,8 +25,6 @@ export function HomeFeatured({
         : sourceProperties.filter((property) => property.kind === activeFilter).slice(0, 3),
     [sourceProperties, activeFilter],
   );
-
-  const isLiveDb = Boolean(initialProperties && initialProperties.length > 0);
 
   return (
     <section className="shell featured-section" aria-labelledby="featured-title">
@@ -51,9 +49,7 @@ export function HomeFeatured({
           ))}
         </div>
       </div>
-      <p className="sample-note">
-        {isLiveDb ? "Handpicked verified properties in Varanasi." : "Illustrative listings based on the supplied design references."}
-      </p>
+      <p className="sample-note">Handpicked verified properties in Varanasi.</p>
       {featured.length > 0 ? (
         <div className="property-grid">
           {featured.map((property) => (

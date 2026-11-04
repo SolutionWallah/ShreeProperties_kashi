@@ -2,10 +2,8 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "../../components/site-header";
 import { PropertyDetailView } from "../../components/property-detail-view";
 import {
-  getPropertyDetails,
   mapDbPropertyToDetail,
   mapDbPropertyToPublic,
-  properties,
 } from "../../data/properties";
 import type { Property, PropertyDetailContent } from "../../data/properties";
 import {
@@ -37,15 +35,6 @@ export default async function PropertyDetailPage({
       }
     }
   } catch {}
-
-  if (!property) {
-    const sample = properties.find((item) => item.id === slug || item.slug === slug);
-    if (sample) {
-      property = sample;
-      details = getPropertyDetails(sample.id);
-      similarProperties = properties.filter((item) => item.id !== sample.id && item.slug !== sample.slug).slice(0, 3);
-    }
-  }
 
   if (!property) {
     notFound();

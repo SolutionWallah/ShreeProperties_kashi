@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Icon } from "./icons";
-import { properties } from "../data/properties";
 import type { Property, PropertyDetailContent } from "../data/properties";
 import { PropertyCard } from "./property-card";
 
@@ -20,10 +19,7 @@ export function PropertyDetailView({
   const [activePhoto, setActivePhoto] = useState(0);
   const [saved, setSaved] = useState(false);
   const [shareMessage, setShareMessage] = useState("");
-  const similarList =
-    similarProperties && similarProperties.length > 0
-      ? similarProperties
-      : properties.filter((item) => item.id !== property.id && item.slug !== property.slug).slice(0, 3);
+  const similarList = similarProperties || [];
 
   const facts = [
     { icon: "bed" as const, value: property.bedrooms ?? property.category },
