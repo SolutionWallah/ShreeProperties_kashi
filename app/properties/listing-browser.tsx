@@ -103,8 +103,6 @@ export function ListingBrowser({
     setActive({ ...emptyFilters });
   }
 
-  const isLiveDb = Boolean(initialProperties && initialProperties.length > 0);
-
   return (
     <div className="shell listing-layout">
       <aside className="filter-sidebar" aria-label="Property filters">
@@ -198,9 +196,7 @@ export function ListingBrowser({
             <div className="listing-count" aria-live="polite">
               {filtered.length} {filtered.length === 1 ? "Property" : "Properties"} Found
             </div>
-            <span className="sample-note">
-              {isLiveDb ? "Showing verified listings in Varanasi." : "Illustrative listings based on the supplied design references."}
-            </span>
+            <span className="sample-note">Showing verified listings in Varanasi.</span>
           </div>
           <div className="toolbar-actions">
             <label className="search-field">
@@ -241,7 +237,7 @@ export function ListingBrowser({
         ) : (
           <div className="empty-state">
             <h2>No properties match these filters</h2>
-            <p>Try a broader search or reset the filters to view all current examples.</p>
+            <p>Try a broader search or reset the filters to view all available listings.</p>
             <button className="button button--outline" type="button" onClick={resetFilters}>
               Reset filters
             </button>

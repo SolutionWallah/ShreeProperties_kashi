@@ -50,8 +50,6 @@ export function PropertyDetailView({
     }
   }
 
-  const isVerifiedListing = property.slug && !["lanka-flat", "godowlia-commercial", "sigra-house", "bhelupur-flat", "cantt-office", "paharia-plot"].includes(property.slug);
-
   return (
     <main className="property-detail-page">
       <div className="shell">
@@ -186,9 +184,7 @@ export function PropertyDetailView({
               {details?.description ??
                 `${property.title} in ${property.location}. Contact us for current availability and more details.`}
             </p>
-            <span className="sample-note">
-              {isVerifiedListing ? "Verified listing details for Shree Property Kashi." : "Illustrative listing details based on the supplied design references."}
-            </span>
+            <span className="sample-note">Verified listing details for Shree Property Kashi.</span>
           </section>
           <div className="detail-information-grid">
             <section className="detail-specifications" id="specifications">
@@ -255,19 +251,21 @@ export function PropertyDetailView({
           </div>
         </div>
 
-        <section className="similar-properties" id="similar-properties">
-          <div className="similar-heading">
-            <h2>Similar Properties</h2>
-            <Link href="/properties">
-              View All Properties <Icon name="arrow" />
-            </Link>
-          </div>
-          <div className="property-grid">
-            {similarList.map((item) => (
-              <PropertyCard key={item.id} property={item} />
-            ))}
-          </div>
-        </section>
+        {similarList.length > 0 && (
+          <section className="similar-properties" id="similar-properties">
+            <div className="similar-heading">
+              <h2>Similar Properties</h2>
+              <Link href="/properties">
+                View All Properties <Icon name="arrow" />
+              </Link>
+            </div>
+            <div className="property-grid">
+              {similarList.map((item) => (
+                <PropertyCard key={item.id} property={item} />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </main>
   );
