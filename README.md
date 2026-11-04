@@ -1,2 +1,2 @@
-# this is for Shree Properties Kashi, varanasahi
+# this is for Shree Properties Kashi, varanasi
 
