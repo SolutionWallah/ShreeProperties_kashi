@@ -655,6 +655,7 @@ img {
 }
 .about-copy p {
   max-width: 64ch;
+  margin-bottom: 0.4rem;
   color: var(--color-muted);
 }
 .about-contact {
@@ -664,6 +665,11 @@ img {
   align-items: center;
   gap: 0.7rem 0.85rem;
   margin-top: 1.4rem;
+}
+.about-contact + .about-contact {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-line);
 }
 .contact-avatar {
   display: grid;
@@ -1727,7 +1733,7 @@ img {
   }
   .about-section {
     grid-template-columns: 1fr;
-    gap: 1.4rem;
+    gap: 2.2rem;
     padding-block: 3.5rem;
   }
   .about-portrait {
@@ -1736,6 +1742,14 @@ img {
   }
   .about-copy h2 {
     font-size: 2.35rem;
+  }
+  .about-contact {
+    max-width: 100%;
+    margin-top: 1.8rem;
+  }
+  .about-contact + .about-contact {
+    margin-top: 2.4rem;
+    padding-top: 1.8rem;
   }
   .contact-cta {
     flex-direction: column;
