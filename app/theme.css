@@ -1404,7 +1404,17 @@ img {
   display: flex;
   width: 100%;
   min-height: 44px;
+}
+.contact-action-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
   margin-top: 0.55rem;
+}
+.contact-action-pair .button {
+  min-width: 0;
+  padding-inline: 0.65rem;
+  white-space: nowrap;
 }
 .consultant-panel {
   display: flex;

@@ -27,6 +27,17 @@
   margin: 0 0 1.25rem;
   justify-content: flex-start;
   background: var(--festive-surface);
+  animation: greeting-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes greeting-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
 .festive-announcement::before,

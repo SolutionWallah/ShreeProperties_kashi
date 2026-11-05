@@ -147,28 +147,32 @@ export function PropertyDetailView({
                   </span>
                 ))}
               </div>
-              <a className="button button--green contact-call" href="tel:+919889028504">
-                <Icon name="phone" />
-                Call 98890 28504
-              </a>
-              <a
-                className="button button--outline contact-whatsapp"
-                href={`https://wa.me/919889028504?text=${encodeURIComponent(`Hello, I am interested in ${property.title} in ${property.location}.`)}`}
-              >
-                <Icon name="whatsapp" />
-                WhatsApp 98890 28504
-              </a>
-              <a className="button button--green contact-call" href="tel:+917903512516">
-                <Icon name="phone" />
-                Call 79035 12516
-              </a>
-              <a
-                className="button button--outline contact-whatsapp"
-                href={`https://wa.me/917903512516?text=${encodeURIComponent(`Hello, I am interested in ${property.title} in ${property.location}.`)}`}
-              >
-                <Icon name="whatsapp" />
-                WhatsApp 79035 12516
-              </a>
+              <div className="contact-action-pair">
+                <a className="button button--green contact-call" href="tel:+919889028504">
+                  <Icon name="phone" />
+                  Call 98890 28504
+                </a>
+                <a
+                  className="button button--outline contact-whatsapp"
+                  href={`https://wa.me/919889028504?text=${encodeURIComponent(`Hello, I am interested in ${property.title} in ${property.location}.`)}`}
+                >
+                  <Icon name="whatsapp" />
+                  WhatsApp 98890 28504
+                </a>
+              </div>
+              <div className="contact-action-pair">
+                <a className="button button--green contact-call" href="tel:+917903512516">
+                  <Icon name="phone" />
+                  Call 79035 12516
+                </a>
+                <a
+                  className="button button--outline contact-whatsapp"
+                  href={`https://wa.me/917903512516?text=${encodeURIComponent(`Hello, I am interested in ${property.title} in ${property.location}.`)}`}
+                >
+                  <Icon name="whatsapp" />
+                  WhatsApp 79035 12516
+                </a>
+              </div>
             </section>
             <section className="consultant-panel">
               <span className="consultant-avatar">
