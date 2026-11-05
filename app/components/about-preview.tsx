@@ -1,11 +1,13 @@
-import { Icon } from "./icons";
+import { advisors } from "../data/advisors";
+import { AdvisorContactCard } from "./advisor-contact-card";
 
 export function AboutPreview() {
   return (
     <section className="shell about-section" id="about" aria-labelledby="about-title">
       <div className="about-portrait about-portrait--pair">
-        <img src="/images/Ashu.png" alt="Ashutosh Singh (Himanshu)" />
-        <img src="/images/SunilM.jpeg" alt="Sunil Maurya" />
+        {advisors.map((advisor) => (
+          <img key={advisor.id} src={advisor.photo} alt={advisor.name} />
+        ))}
       </div>
       <div className="about-copy">
         <span className="eyebrow">About us</span>
@@ -16,40 +18,14 @@ export function AboutPreview() {
           A Varanasi-based real estate consultancy helping people explore property for their home,
           business, or investment.
         </p>
-        <div className="about-contact">
-          <div className="contact-avatar" aria-hidden="true">
-            <img className="contact-avatar__image" src="/images/Ashu.png" alt="" />
-          </div>
-          <span className="contact-name">Ashutosh Singh (Himanshu)</span>
-          <span className="contact-role">Property Dealer &amp; Real Estate Consultant</span>
-          <div className="contact-cta">
-            <a className="button button--green" href="tel:+919889028504">
-              <Icon name="phone" />
-              +91 98890 28504
-            </a>
-            <a className="button button--outline" href="https://wa.me/919889028504">
-              <Icon name="whatsapp" />
-              Chat on WhatsApp
-            </a>
-          </div>
-        </div>
-        <div className="about-contact">
-          <div className="contact-avatar" aria-hidden="true">
-            <img className="contact-avatar__image" src="/images/SunilM.jpeg" alt="" />
-          </div>
-          <span className="contact-name">Sunil Maurya</span>
-          <span className="contact-role">Property Dealer &amp; Real Estate Consultant</span>
-          <div className="contact-cta">
-            <a className="button button--green" href="tel:+917903512516">
-              <Icon name="phone" />
-              +91 79035 12516
-            </a>
-            <a className="button button--outline" href="https://wa.me/917903512516">
-              <Icon name="whatsapp" />
-              Chat on WhatsApp
-            </a>
-          </div>
-        </div>
+        <section className="advisor-list" id="contact" aria-labelledby="advisor-list-title">
+          <h3 className="visually-hidden" id="advisor-list-title">
+            Contact our advisors
+          </h3>
+          {advisors.map((advisor) => (
+            <AdvisorContactCard advisor={advisor} key={advisor.id} />
+          ))}
+        </section>
       </div>
     </section>
   );

@@ -304,15 +304,9 @@ img {
 }
 .hero-actions {
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
   gap: 0.7rem;
   margin-top: 1.65rem;
-}
-.hero-contact-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
 }
 .arch-mark {
   position: absolute;
@@ -410,7 +404,8 @@ img {
   gap: 1.5rem;
 }
 .property-card {
-  overflow: hidden;
+  position: relative;
+  overflow: visible;
   border: 1px solid rgb(232 217 197 / 80%);
   border-radius: var(--radius-md);
   background: var(--color-paper);
@@ -427,6 +422,7 @@ img {
   position: relative;
   aspect-ratio: 1.65;
   overflow: hidden;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
   background: var(--color-sand);
 }
 .property-photo {
@@ -451,28 +447,6 @@ img {
 }
 .listing-badge--green {
   background: var(--color-green);
-}
-.favorite-button {
-  position: absolute;
-  top: 0.68rem;
-  right: 0.7rem;
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: rgb(255 253 248 / 94%);
-  color: var(--color-orange);
-  cursor: pointer;
-}
-.favorite-button[aria-pressed="true"] {
-  background: var(--color-orange);
-  color: var(--color-white);
-}
-.favorite-button .icon {
-  width: 1.2rem;
-  height: 1.2rem;
 }
 .property-content {
   padding: 0.9rem 1rem 1rem;
@@ -664,19 +638,28 @@ img {
 }
 .about-portrait--pair {
   display: grid;
+  align-items: stretch;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.45rem;
-  padding: 0.45rem;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 0.35rem;
+  padding: 0.35rem;
 }
 .about-portrait--pair img {
+  display: block;
+  width: 100%;
+  height: 100%;
   min-width: 0;
-  border-radius: 38% 38% 0.8rem 0.8rem;
+  min-height: 0;
+  border-radius: 0 0 0.75rem 0.75rem;
+  object-fit: cover;
 }
 .about-portrait--pair img:first-child {
-  object-position: 48% 23%;
+  border-radius: 80% 0 0.75rem 0.75rem / 38% 0 0.75rem 0.75rem;
+  object-position: 50% 18%;
 }
 .about-portrait--pair img:last-child {
-  object-position: 50% 25%;
+  border-radius: 0 80% 0.75rem 0.75rem / 0 38% 0.75rem 0.75rem;
+  object-position: 50% 20%;
 }
 .about-copy h2 {
   margin: 0.4rem 0 0.6rem;
@@ -731,6 +714,12 @@ img {
   color: var(--color-muted);
   font-size: 0.86rem;
 }
+.contact-phone {
+  align-self: start;
+  color: var(--color-green);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
 .contact-cta {
   display: flex;
   flex-wrap: wrap;
@@ -751,17 +740,9 @@ img {
 .footer-brand {
   max-width: 330px;
 }
-.footer-brand .brand-name {
-  max-width: 220px;
-  font-size: 1.65rem;
-}
 .footer-brand .brand-mark {
-  width: 60px;
-  height: 60px;
-}
-.footer-tagline {
-  margin: 0.7rem 0;
-  font-size: 1.03rem;
+  width: 58px;
+  height: 58px;
 }
 .footer-copy {
   max-width: 35ch;
@@ -788,9 +769,12 @@ img {
   font-size: 0.92rem;
 }
 .footer-contact-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem 0.8rem;
+  display: grid;
+  gap: 0.3rem;
+  padding-block: 0.25rem;
+}
+.footer-contact-name {
+  font-size: 0.88rem;
 }
 .footer-links a:hover {
   color: var(--color-orange);
@@ -909,7 +893,7 @@ img {
       rgb(255 250 242 / 50%) 67%,
       rgb(255 250 242 / 8%) 100%
     ),
-    url("/images/varanasi-riverfront.jpg");
+    url("/images/varanasi-riverfront.webp");
   background-position:
     center,
     center 44%;
@@ -1122,10 +1106,6 @@ img {
   border-radius: var(--radius-sm);
 }
 .detail-actions .icon {
-  color: var(--color-orange);
-}
-.detail-actions .is-saved {
-  border-color: var(--color-orange);
   color: var(--color-orange);
 }
 .detail-top-grid {
@@ -1393,7 +1373,7 @@ img {
   font-size: 0.76rem;
 }
 .contact-property-panel,
-.consultant-panel {
+.advisor-contacts-panel {
   padding: 1.15rem;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
@@ -1430,64 +1410,66 @@ img {
   width: 1.1rem;
   height: 1.1rem;
 }
-.contact-call,
-.contact-whatsapp {
-  display: flex;
-  width: 100%;
-  min-height: 44px;
+.advisor-prompt {
+  margin: 0.7rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.8rem;
 }
-.contact-action-pair {
+.advisor-contacts-panel {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
-  margin-top: 0.55rem;
-}
-.contact-action-pair .button {
-  min-width: 0;
-  padding-inline: 0.65rem;
-  line-height: 1.2;
-  text-align: center;
-  overflow-wrap: anywhere;
-}
-.contact-action-pair .button .icon {
-  flex: 0 0 auto;
-}
-@media (max-width: 560px) {
-  .contact-action-pair .button {
-    gap: 0.35rem;
-    padding-inline: 0.35rem;
-    font-size: 0.74rem;
-  }
-}
-.consultant-panel {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  gap: 0.6rem;
   margin-top: 0.7rem;
 }
-.consultant-avatar {
+.advisor-contacts-panel h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+.advisor-contact-card--detail {
+  max-width: none;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 0.4rem 0.65rem;
+  margin: 0;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--color-line);
+}
+.advisor-contact-card--detail + .advisor-contact-card--detail {
+  margin: 0;
+  padding-top: 0.65rem;
+}
+.advisor-contact-card--detail .contact-avatar {
+  width: 42px;
+  height: 42px;
+  grid-row: span 3;
+}
+.advisor-contact-card--detail .contact-name {
+  font-size: 0.82rem;
+}
+.advisor-contact-card--detail .contact-role {
+  font-size: 0.7rem;
+}
+.advisor-contact-card--detail .contact-phone {
+  grid-column: 2;
+  font-size: 0.74rem;
+}
+.advisor-contact-card--detail .contact-cta {
   display: grid;
-  width: 54px;
-  height: 54px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 2px solid var(--color-line);
-  border-radius: 50%;
-  background: var(--color-orange-soft);
-  color: var(--color-orange);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
 }
-.consultant-panel > div {
-  display: grid;
-  gap: 0.15rem;
+.advisor-contact-card--detail .contact-cta .button {
+  min-width: 0;
+  min-height: 38px;
+  gap: 0.3rem;
+  padding-inline: 0.35rem;
+  font-size: 0.68rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
-.consultant-panel strong {
-  font-size: 0.9rem;
-  line-height: 1.25;
-}
-.consultant-panel div span {
-  color: var(--color-muted);
-  font-size: 0.78rem;
-  line-height: 1.3;
+.advisor-contact-card--detail .contact-cta .icon {
+  width: 1rem;
+  height: 1rem;
 }
 .similar-properties {
   margin-top: 1.4rem;
@@ -1520,9 +1502,6 @@ img {
 }
 
 @media (max-width: 1120px) {
-  .brand-tagline {
-    display: none;
-  }
   .header-nav {
     gap: 1rem;
   }
@@ -1761,21 +1740,13 @@ img {
     font-size: 1rem;
   }
   .hero-actions {
-    align-items: stretch;
-    width: 100%;
-    max-width: none;
+    gap: 0.55rem;
+    margin-top: 1.3rem;
   }
-  .hero-contact-actions {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .hero-contact-actions .button {
-    width: 100%;
+  .hero-actions .button {
     min-width: 0;
-    padding-inline: 0.5rem;
-    font-size: 0.72rem;
-    white-space: nowrap;
+    padding-inline: 0.8rem;
+    font-size: 0.85rem;
   }
   .trust-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1886,9 +1857,6 @@ img {
   .footer-brand {
     max-width: 100%;
   }
-  .footer-brand .brand-name {
-    font-size: 1.45rem;
-  }
   .footer-column h2 {
     margin-bottom: 1rem;
     font-size: 1.25rem;
@@ -1901,8 +1869,7 @@ img {
     font-size: 0.9rem;
   }
   .footer-contact-group {
-    flex-direction: column;
-    gap: 0.65rem;
+    gap: 0.35rem;
   }
   .footer-contact {
     align-items: flex-start;
@@ -2067,8 +2034,8 @@ img {
   .contact-property-panel {
     padding: 1rem;
   }
-  .consultant-panel {
-    margin-top: 0.6rem;
+  .advisor-contacts-panel {
+    padding: 0.9rem;
   }
   .similar-properties .property-grid {
     grid-template-columns: 1fr;

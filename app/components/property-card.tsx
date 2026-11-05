@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { Icon } from "./icons";
 import Link from "next/link";
 import type { Property } from "../data/properties";
+import { FestivePropertyCardLights } from "../../Festive-Design";
 
 export function PropertyCard({ property }: { property: Property }) {
-  const [saved, setSaved] = useState(false);
   const isLease = property.status === "For Lease";
   const propertySlug = property.slug || property.id;
 
@@ -19,21 +18,13 @@ export function PropertyCard({ property }: { property: Property }) {
         <span className={`listing-badge ${isLease ? "listing-badge--green" : ""}`}>
           {property.status}
         </span>
-        <button
-          className="favorite-button"
-          type="button"
-          aria-label={
-            saved ? `Remove ${property.title} from saved properties` : `Save ${property.title}`
-          }
-          aria-pressed={saved}
-          onClick={() => setSaved(!saved)}
-        >
-          <Icon name="heart" />
-        </button>
       </div>
       <div className="property-content">
         <h3>
-          <Link href={`/properties/${propertySlug}`} style={{ textDecoration: "none", color: "inherit" }}>
+          <Link
+            href={`/properties/${propertySlug}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             {property.title}
           </Link>
         </h3>
@@ -76,6 +67,7 @@ export function PropertyCard({ property }: { property: Property }) {
           </Link>
         </div>
       </div>
+      <FestivePropertyCardLights />
     </article>
   );
 }

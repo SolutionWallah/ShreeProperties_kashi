@@ -1,3 +1,3 @@
 export { festiveConfig, getActiveFestiveTheme } from "./config";
-export type { FestiveThemeConfig } from "./config";
-export { FestiveLayer } from "./components/FestiveLayer";
+export type { FestiveThemeConfig, FestiveThemeName } from "./config";
+export { FestiveBanner, FestiveLayer, FestivePropertyCardLights } from "./components/FestiveLayer";

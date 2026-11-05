@@ -1,23 +1,22 @@
 import Link from "next/link";
+import { advisors, getAdvisorWhatsAppUrl } from "../data/advisors";
 import { BrandMark } from "./brand-mark";
 import { Icon } from "./icons";
 
 export function SiteFooter() {
   return (
-    <footer className="footer" id="contact">
+    <footer className="footer" id="footer-contact">
       <div className="shell footer-main">
         <div className="footer-brand">
           <Link className="brand" href="/">
             <BrandMark />
-            <span className="brand-name">
-              Shree
-              <br />
-              Property Kashi
+            <span className="brand-copy">
+              <span className="brand-name">Shree Property Kashi</span>
+              <span className="brand-tagline" lang="hi">
+                आपका विश्वास ही, मेरी पहचान हैं
+              </span>
             </span>
           </Link>
-          <p className="footer-tagline" lang="hi">
-            आप का विश्वास ही, मेरी पहचान हैं
-          </p>
           <p className="footer-copy">
             Local property guidance for homes, commercial spaces, and land in Varanasi.
           </p>
@@ -74,26 +73,19 @@ export function SiteFooter() {
         <div className="footer-column">
           <h2>Get in Touch</h2>
           <ul className="footer-links">
-            <li className="footer-contact-group">
-              <a className="footer-contact" href="tel:+919889028504">
-                <Icon name="phone" />
-                +91 98890 28504
-              </a>
-              <a className="footer-contact" href="https://wa.me/919889028504">
-                <Icon name="whatsapp" />
-                WhatsApp 98890 28504
-              </a>
-            </li>
-            <li className="footer-contact-group">
-              <a className="footer-contact" href="tel:+917903512516">
-                <Icon name="phone" />
-                +91 79035 12516
-              </a>
-              <a className="footer-contact" href="https://wa.me/917903512516">
-                <Icon name="whatsapp" />
-                WhatsApp 79035 12516
-              </a>
-            </li>
+            {advisors.map((advisor) => (
+              <li className="footer-contact-group" key={advisor.id}>
+                <strong className="footer-contact-name">{advisor.name}</strong>
+                <a className="footer-contact" href={`tel:${advisor.phone}`}>
+                  <Icon name="phone" />
+                  {advisor.phoneDisplay}
+                </a>
+                <a className="footer-contact" href={getAdvisorWhatsAppUrl(advisor)}>
+                  <Icon name="whatsapp" />
+                  Chat on WhatsApp
+                </a>
+              </li>
+            ))}
             <li>
               <span className="footer-contact">
                 <Icon name="pin" />

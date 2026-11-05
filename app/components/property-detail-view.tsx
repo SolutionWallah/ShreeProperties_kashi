@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Icon } from "./icons";
 import type { Property, PropertyDetailContent } from "../data/properties";
 import { PropertyCard } from "./property-card";
+import { advisors } from "../data/advisors";
+import { AdvisorContactCard } from "./advisor-contact-card";
 
 export function PropertyDetailView({
   property,
@@ -18,7 +20,6 @@ export function PropertyDetailView({
   const photos =
     details?.gallery && details.gallery.length > 0 ? details.gallery : [property.image];
   const [activePhoto, setActivePhoto] = useState(0);
-  const [saved, setSaved] = useState(false);
   const [shareMessage, setShareMessage] = useState("");
   const similarList = similarProperties || [];
 
@@ -73,15 +74,6 @@ export function PropertyDetailView({
             <button className="button button--light" type="button" onClick={handleShare}>
               <Icon name="share" />
               Share
-            </button>
-            <button
-              className={`button button--light ${saved ? "is-saved" : ""}`}
-              type="button"
-              aria-pressed={saved}
-              onClick={() => setSaved(!saved)}
-            >
-              <Icon name="heart" />
-              {saved ? "Saved" : "Save"}
             </button>
             <span className="visually-hidden" role="status">
               {shareMessage}
@@ -169,43 +161,18 @@ export function PropertyDetailView({
                   </span>
                 ))}
               </div>
-              <div className="contact-action-pair">
-                <a className="button button--green contact-call" href="tel:+919889028504">
-                  <Icon name="phone" />
-                  Call 98890 28504
-                </a>
-                <a
-                  className="button button--outline contact-whatsapp"
-                  href={`https://wa.me/919889028504?text=${encodeURIComponent(`Hello, I am interested in ${property.title} in ${property.location}.`)}`}
-                >
-                  <Icon name="whatsapp" />
-                  WhatsApp 98890 28504
-                </a>
-              </div>
-              <div className="contact-action-pair">
-                <a className="button button--green contact-call" href="tel:+917903512516">
-                  <Icon name="phone" />
-                  Call 79035 12516
-                </a>
-                <a
-                  className="button button--outline contact-whatsapp"
-                  href={`https://wa.me/917903512516?text=${encodeURIComponent(`Hello, I am interested in ${property.title} in ${property.location}.`)}`}
-                >
-                  <Icon name="whatsapp" />
-                  WhatsApp 79035 12516
-                </a>
-              </div>
+              <p className="advisor-prompt">Choose an advisor below to call or message.</p>
             </section>
-            <section className="consultant-panel">
-              <span className="consultant-avatar">
-                <Icon name="user" />
-              </span>
-              <div>
-                <strong>Ashutosh Singh (Himanshu)</strong>
-                <span>Property Dealer &amp; Real Estate Consultant</span>
-                <strong>Sunil Maurya</strong>
-                <span>Property Dealer &amp; Real Estate Consultant</span>
-              </div>
+            <section className="advisor-contacts-panel" aria-label="Contact our advisors">
+              <h2>Contact an advisor</h2>
+              {advisors.map((advisor) => (
+                <AdvisorContactCard
+                  advisor={advisor}
+                  key={advisor.id}
+                  variant="detail"
+                  message={`Hello, I am interested in ${property.title} in ${property.location}.`}
+                />
+              ))}
             </section>
           </aside>
         </div>

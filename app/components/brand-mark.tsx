@@ -5,7 +5,7 @@ export function BrandMark({ className = "" }: { className?: string }) {
   return (
     <Image
       className={`brand-mark ${className}`.trim()}
-      src="/images/ganesha-logo.png"
+      src="/images/ganesha-logo.webp"
       alt=""
       width={1536}
       height={1024}
