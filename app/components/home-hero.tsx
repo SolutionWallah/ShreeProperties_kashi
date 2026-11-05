@@ -20,11 +20,19 @@ export function HomeHero() {
           <div className="hero-actions">
             <a className="button button--green" href="tel:+919889028504">
               <Icon name="phone" />
-              Call Now
+              Call 98890 28504
             </a>
             <a className="button button--outline" href="https://wa.me/919889028504">
               <Icon name="whatsapp" />
-              WhatsApp
+              WhatsApp 98890 28504
+            </a>
+            <a className="button button--green" href="tel:+917903512516">
+              <Icon name="phone" />
+              Call 79035 12516
+            </a>
+            <a className="button button--outline" href="https://wa.me/917903512516">
+              <Icon name="whatsapp" />
+              WhatsApp 79035 12516
             </a>
           </div>
         </div>

@@ -81,9 +81,21 @@ export function SiteFooter() {
               </a>
             </li>
             <li>
+              <a className="footer-contact" href="tel:+917903512516">
+                <Icon name="phone" />
+                +91 79035 12516
+              </a>
+            </li>
+            <li>
               <a className="footer-contact" href="https://wa.me/919889028504">
                 <Icon name="whatsapp" />
-                Chat on WhatsApp
+                WhatsApp 98890 28504
+              </a>
+            </li>
+            <li>
+              <a className="footer-contact" href="https://wa.me/917903512516">
+                <Icon name="whatsapp" />
+                WhatsApp 79035 12516
               </a>
             </li>
             <li>
@@ -103,10 +115,14 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <div className="shell footer-bottom-inner">
           <span>© 2026 Shree Property Kashi. All rights reserved.</span>
+          <span>
+            Designed, Developed and Hosted by SolutionWallah{" "}
+            <a href="mailto:contact.solutionwallah@gmail.com">contact.solutionwallah@gmail.com</a>
+          </span>
           <div className="legal-links">
-            <span>Privacy Policy</span>
+            <Link href="/privacy-policy">Privacy Policy</Link>
             <span aria-hidden="true">|</span>
-            <span>Terms &amp; Conditions</span>
+            <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>

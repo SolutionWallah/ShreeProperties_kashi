@@ -15,7 +15,8 @@ export function PropertyDetailView({
   details: PropertyDetailContent | null;
   similarProperties?: Property[];
 }) {
-  const photos = details?.gallery && details.gallery.length > 0 ? details.gallery : [property.image];
+  const photos =
+    details?.gallery && details.gallery.length > 0 ? details.gallery : [property.image];
   const [activePhoto, setActivePhoto] = useState(0);
   const [saved, setSaved] = useState(false);
   const [shareMessage, setShareMessage] = useState("");
@@ -148,14 +149,25 @@ export function PropertyDetailView({
               </div>
               <a className="button button--green contact-call" href="tel:+919889028504">
                 <Icon name="phone" />
-                Call Now
+                Call 98890 28504
               </a>
               <a
                 className="button button--outline contact-whatsapp"
                 href={`https://wa.me/919889028504?text=${encodeURIComponent(`Hello, I am interested in ${property.title} in ${property.location}.`)}`}
               >
                 <Icon name="whatsapp" />
-                Chat on WhatsApp
+                WhatsApp 98890 28504
+              </a>
+              <a className="button button--green contact-call" href="tel:+917903512516">
+                <Icon name="phone" />
+                Call 79035 12516
+              </a>
+              <a
+                className="button button--outline contact-whatsapp"
+                href={`https://wa.me/917903512516?text=${encodeURIComponent(`Hello, I am interested in ${property.title} in ${property.location}.`)}`}
+              >
+                <Icon name="whatsapp" />
+                WhatsApp 79035 12516
               </a>
             </section>
             <section className="consultant-panel">
@@ -228,7 +240,10 @@ export function PropertyDetailView({
               </div>
               <a
                 className="button button--outline map-link"
-                href={details?.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${property.location}, India`)}`}
+                href={
+                  details?.googleMapsUrl ||
+                  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${property.location}, India`)}`
+                }
                 target="_blank"
                 rel="noreferrer"
               >
@@ -241,7 +256,12 @@ export function PropertyDetailView({
                   href={details.youtubeUrl}
                   target="_blank"
                   rel="noreferrer"
-                  style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", marginTop: "0.75rem" }}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    marginTop: "0.75rem",
+                  }}
                 >
                   <Icon name="arrow" />
                   Watch Video Tour

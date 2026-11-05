@@ -55,9 +55,19 @@ export function SiteHeader({ current = "home" }: { current?: "home" | "propertie
           <a className="header-phone" href="tel:+919889028504">
             <Icon name="phone" /> +91 98890 28504
           </a>
+          <a className="header-phone" href="tel:+917903512516">
+            <Icon name="phone" /> +91 79035 12516
+          </a>
           <a
             className="header-whatsapp"
             href="https://wa.me/919889028504"
+            aria-label="Chat on WhatsApp"
+          >
+            <Icon name="whatsapp" /> WhatsApp
+          </a>
+          <a
+            className="header-whatsapp"
+            href="https://wa.me/917903512516"
             aria-label="Chat on WhatsApp"
           >
             <Icon name="whatsapp" /> WhatsApp
