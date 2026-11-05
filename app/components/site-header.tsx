@@ -13,15 +13,13 @@ export function SiteHeader({ current = "home" }: { current?: "home" | "propertie
       <div className="shell header-inner">
         <Link className="brand" href="/" aria-label="Shree Property Kashi home">
           <BrandMark />
-          <span className="brand-name">
-            Shree
-            <br />
-            Property Kashi
+          <span className="brand-copy">
+            <span className="brand-name">Shree Property Kashi</span>
+            <span className="brand-tagline" lang="hi">
+              आप का विश्वास ही, मेरी पहचान हैं
+            </span>
           </span>
         </Link>
-        <div className="brand-tagline" lang="hi">
-          आप का विश्वास ही, मेरी पहचान हैं
-        </div>
         <button
           className="mobile-menu-button"
           type="button"
