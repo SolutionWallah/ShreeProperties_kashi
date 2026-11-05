@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Icon } from "./icons";
+import { SocialLinks } from "./social-links";
 
 export function HomeHero() {
   return (
@@ -19,14 +20,17 @@ export function HomeHero() {
             Property Solutions <span className="accent">in Varanasi</span>
           </h1>
           <p>Buy, sell, or rent homes, commercial spaces, and land with Shree Property Kashi.</p>
-          <div className="hero-actions">
-            <a className="button button--green" href="#contact">
-              <Icon name="phone" />
-              Talk to our team
-            </a>
-            <Link className="button button--outline" href="/properties">
-              Browse properties
-            </Link>
+          <div className="hero-cta-group">
+            <div className="hero-actions">
+              <a className="button button--green" href="#contact">
+                <Icon name="phone" />
+                Talk to our team
+              </a>
+              <Link className="button button--outline" href="/properties">
+                Browse properties
+              </Link>
+            </div>
+            <SocialLinks className="hero-social" />
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { advisors, getAdvisorWhatsAppUrl } from "../data/advisors";
 import { BrandMark } from "./brand-mark";
 import { Icon } from "./icons";
+import { SocialLinks } from "./social-links";
 import { FestiveFooterLights } from "../../Festive-Design";
 
 export function SiteFooter() {
@@ -74,6 +75,7 @@ export function SiteFooter() {
         </div>
         <div className="footer-column">
           <h2>Get in Touch</h2>
+          <SocialLinks />
           <ul className="footer-links">
             {advisors.map((advisor) => (
               <li className="footer-contact-group" key={advisor.id}>

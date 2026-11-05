@@ -302,6 +302,10 @@ img {
   gap: 0.7rem;
   margin-top: 1.65rem;
 }
+.hero-cta-group {
+  width: fit-content;
+  max-width: 100%;
+}
 .arch-mark {
   position: absolute;
   z-index: -1;
@@ -798,7 +802,8 @@ img {
 .footer-social {
   display: flex;
   gap: 0.6rem;
-  margin-top: 1rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 .social-link {
   display: grid;
@@ -808,6 +813,35 @@ img {
   border: 1px solid var(--color-line);
   border-radius: 50%;
   color: var(--color-green);
+}
+.social-link:hover {
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+}
+.social-link--youtube {
+  color: #e62117;
+}
+.social-link--instagram {
+  color: #c13584;
+}
+.olx-wordmark {
+  display: flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: -0.09em;
+}
+.olx-wordmark span:first-child {
+  color: #002f34;
+}
+.olx-wordmark span:nth-child(2) {
+  color: #23e5db;
+}
+.olx-wordmark span:last-child {
+  color: #ffce32;
+}
+.hero-social {
+  justify-content: center;
+  margin-top: 1rem;
 }
 .footer-art {
   display: block;
