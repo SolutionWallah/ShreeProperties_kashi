@@ -110,6 +110,28 @@ export function PropertyDetailView({
                 </span>
               </button>
               {photos.length > 1 && (
+                <>
+                  <button
+                    className="gallery-arrow gallery-arrow--previous"
+                    type="button"
+                    onClick={() =>
+                      setActivePhoto((activePhoto - 1 + photos.length) % photos.length)
+                    }
+                    aria-label="Show previous property photo"
+                  >
+                    <span aria-hidden="true">‹</span>
+                  </button>
+                  <button
+                    className="gallery-arrow gallery-arrow--next"
+                    type="button"
+                    onClick={() => setActivePhoto((activePhoto + 1) % photos.length)}
+                    aria-label="Show next property photo"
+                  >
+                    <span aria-hidden="true">›</span>
+                  </button>
+                </>
+              )}
+              {photos.length > 1 && (
                 <div className="gallery-thumbnails">
                   {photos.slice(1, 5).map((photo, index) => {
                     const photoIndex = index + 1;
