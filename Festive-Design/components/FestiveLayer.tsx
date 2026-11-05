@@ -32,10 +32,6 @@ export function FestiveLayer({ children }: FestiveLayerProps) {
         } as FestiveStyle
       }
     >
-      <p className="festive-announcement" lang={festiveConfig.language}>
-        <span>{festiveConfig.label}</span>
-        {festiveConfig.announcement}
-      </p>
       {children}
     </div>
   );

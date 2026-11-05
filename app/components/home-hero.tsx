@@ -1,4 +1,5 @@
 import { Icon } from "./icons";
+import { festiveConfig } from "../../Festive-Design/config";
 
 export function HomeHero() {
   return (
@@ -12,6 +13,15 @@ export function HomeHero() {
       <div className="arch-mark" aria-hidden="true" />
       <div className="shell hero-inner">
         <div className="hero-copy">
+          {festiveConfig.enabled && (
+            <p
+              className="festive-announcement hero-festive-announcement"
+              lang={festiveConfig.language}
+            >
+              <span>{festiveConfig.label}</span>
+              {festiveConfig.announcement}
+            </p>
+          )}
           <span className="eyebrow">Local property guidance in Varanasi</span>
           <h1 id="home-title">
             Property Solutions <span className="accent">in Varanasi</span>
