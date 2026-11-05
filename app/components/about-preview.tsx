@@ -4,7 +4,7 @@ export function AboutPreview() {
   return (
     <section className="shell about-section" id="about" aria-labelledby="about-title">
       <div className="about-portrait about-portrait--pair">
-        <img src="/images/Ashu.jpeg" alt="Ashutosh Singh (Himanshu)" />
+        <img src="/images/Ashu.png" alt="Ashutosh Singh (Himanshu)" />
         <img src="/images/SunilM.jpeg" alt="Sunil Maurya" />
       </div>
       <div className="about-copy">
@@ -18,7 +18,7 @@ export function AboutPreview() {
         </p>
         <div className="about-contact">
           <div className="contact-avatar" aria-hidden="true">
-            <img className="contact-avatar__image" src="/images/Ashu.jpeg" alt="" />
+            <img className="contact-avatar__image" src="/images/Ashu.png" alt="" />
           </div>
           <span className="contact-name">Ashutosh Singh (Himanshu)</span>
           <span className="contact-role">Property Dealer &amp; Real Estate Consultant</span>
