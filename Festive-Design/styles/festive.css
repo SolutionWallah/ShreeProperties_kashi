@@ -1,0 +1,53 @@
+.festive-layer {
+  position: relative;
+  isolation: isolate;
+}
+
+.festive-announcement {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  min-height: 2.4rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0.45rem 1rem;
+  background: var(--festive-surface);
+  color: var(--festive-text);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.festive-announcement::before,
+.festive-announcement::after {
+  width: 0.45rem;
+  height: 0.45rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--festive-primary);
+  box-shadow: 0 0 0 0.22rem color-mix(in srgb, var(--festive-primary) 15%, transparent);
+  content: "";
+}
+
+.festive-announcement::after {
+  background: var(--festive-secondary);
+  box-shadow: 0 0 0 0.22rem color-mix(in srgb, var(--festive-secondary) 15%, transparent);
+}
+
+.festive-layer:has(.admin-shell) > .festive-announcement,
+.festive-layer:has(.admin-login-shell) > .festive-announcement {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .festive-announcement {
+    min-height: 2.2rem;
+    gap: 0.55rem;
+    padding-inline: 0.6rem;
+    font-size: 0.76rem;
+  }
+}

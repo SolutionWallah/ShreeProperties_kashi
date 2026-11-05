@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandMark } from "./brand-mark";
 import { Icon } from "./icons";
 
 export function SiteFooter() {
@@ -7,7 +8,7 @@ export function SiteFooter() {
       <div className="shell footer-main">
         <div className="footer-brand">
           <Link className="brand" href="/">
-            <Icon className="brand-mark" name="temple" />
+            <BrandMark />
             <span className="brand-name">
               Shree
               <br />

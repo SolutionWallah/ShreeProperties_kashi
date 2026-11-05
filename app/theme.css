@@ -154,7 +154,10 @@ img {
 .brand-mark {
   width: 48px;
   height: 48px;
-  color: var(--color-orange);
+  flex: 0 0 auto;
+  object-fit: cover;
+  object-position: center;
+  mix-blend-mode: multiply;
 }
 .brand-name {
   max-width: 190px;
@@ -647,6 +650,22 @@ img {
   object-fit: cover;
   object-position: center 30%;
 }
+.about-portrait--pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  padding: 0.45rem;
+}
+.about-portrait--pair img {
+  min-width: 0;
+  border-radius: 38% 38% 0.8rem 0.8rem;
+}
+.about-portrait--pair img:first-child {
+  object-position: 48% 23%;
+}
+.about-portrait--pair img:last-child {
+  object-position: 50% 25%;
+}
 .about-copy h2 {
   margin: 0.4rem 0 0.6rem;
   font-family: var(--font-display);
@@ -684,6 +703,12 @@ img {
 .contact-avatar .icon {
   width: 1.55rem;
   height: 1.55rem;
+}
+.contact-avatar__image {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
 }
 .contact-name {
   align-self: end;

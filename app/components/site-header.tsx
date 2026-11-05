@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { BrandMark } from "./brand-mark";
 import { Icon } from "./icons";
 
 export function SiteHeader({ current = "home" }: { current?: "home" | "properties" }) {
@@ -11,7 +12,7 @@ export function SiteHeader({ current = "home" }: { current?: "home" | "propertie
     <header className="site-header">
       <div className="shell header-inner">
         <Link className="brand" href="/" aria-label="Shree Property Kashi home">
-          <Icon className="brand-mark" name="temple" />
+          <BrandMark />
           <span className="brand-name">
             Shree
             <br />

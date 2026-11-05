@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+import { BrandMark } from "../components/brand-mark";
 import { Icon } from "../components/icons";
 import { authClient } from "../lib/auth/client";
 import "./Admin.css";
@@ -88,7 +89,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           href="/admin/properties"
           aria-label="Shree Property Kashi admin home"
         >
-          <Icon name="temple" />
+          <BrandMark />
           <span>
             Shree
             <br />

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { DiwaliLayer, festiveConfig } from "../Festive-Design";
+import { FestiveLayer } from "../Festive-Design";
 import { SiteFooter } from "./components/site-footer";
-import "../Festive-Design/styles/diwali.css";
+import "../Festive-Design/styles/festive.css";
 import "./theme.css";
 
 export const metadata: Metadata = {
@@ -14,10 +14,10 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <body>
-        <DiwaliLayer theme={festiveConfig}>
+        <FestiveLayer>
           {children}
           <SiteFooter />
-        </DiwaliLayer>
+        </FestiveLayer>
       </body>
     </html>
   );

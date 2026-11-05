@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { BrandMark } from "../../components/brand-mark";
 import { Icon } from "../../components/icons";
 import { authClient } from "../../lib/auth/client";
 import "../Admin.css";
@@ -46,7 +47,7 @@ export default function AdminLoginPage() {
       <div className="admin-login-card">
         <div className="admin-login-brand">
           <Link href="/" className="admin-login-logo" aria-label="Home">
-            <Icon name="temple" />
+            <BrandMark />
           </Link>
           <h2>Shree Property Kashi</h2>
           <p className="admin-login-tagline" lang="hi">
@@ -109,11 +110,7 @@ export default function AdminLoginPage() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="admin-login-submit"
-            disabled={loading}
-          >
+          <button type="submit" className="admin-login-submit" disabled={loading}>
             {loading ? "Authenticating..." : "Sign In to Admin"}
           </button>
         </form>

@@ -2,7 +2,7 @@
 body:has(.admin-shell) {
   background: var(--color-ivory);
 }
-body:has(.admin-shell) > .footer {
+.festive-layer:has(.admin-shell) > .footer {
   display: none;
 }
 .admin-shell {
@@ -34,6 +34,10 @@ body:has(.admin-shell) > .footer {
   width: 48px;
   height: 48px;
   color: #ff6b22;
+}
+.admin-brand .brand-mark {
+  mix-blend-mode: normal;
+  border-radius: 0.25rem;
 }
 .admin-brand span {
   font-family: var(--font-display);
@@ -1138,7 +1142,7 @@ body:has(.admin-shell) > .footer {
   }
 }
 @media (max-width: 760px) {
-  body:has(.admin-shell) > .footer {
+  .festive-layer:has(.admin-shell) > .footer {
     display: none;
   }
   .admin-shell {
@@ -1449,7 +1453,7 @@ body:has(.admin-shell) > .footer {
   color: var(--color-orange);
   margin-bottom: 0.75rem;
 }
-.admin-login-logo .icon {
+.admin-login-logo .brand-mark {
   width: 32px;
   height: 32px;
 }
@@ -1514,7 +1518,9 @@ body:has(.admin-shell) > .footer {
   border: 1px solid var(--color-line);
   background: var(--color-white);
   padding: 0 0.85rem;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 .admin-login-input-wrap:focus-within {
   border-color: var(--color-green);
