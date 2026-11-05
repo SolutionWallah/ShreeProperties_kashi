@@ -1709,16 +1709,20 @@ img {
   }
   .hero-actions {
     align-items: stretch;
-    max-width: 250px;
+    width: 100%;
+    max-width: none;
   }
   .hero-contact-actions {
     display: grid;
+    width: 100%;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .hero-contact-actions .button {
+    width: 100%;
     min-width: 0;
     padding-inline: 0.5rem;
     font-size: 0.72rem;
+    white-space: nowrap;
   }
   .trust-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
