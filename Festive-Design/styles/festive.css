@@ -30,6 +30,14 @@
   animation: greeting-breathe 2.8s ease-in-out infinite;
 }
 
+.greeting-popper {
+  display: inline-block;
+  font-size: 1.15rem;
+  line-height: 1;
+  transform-origin: bottom center;
+  animation: popper-celebrate 1.4s ease-in-out infinite;
+}
+
 @keyframes greeting-breathe {
   0%,
   100% {
@@ -37,6 +45,16 @@
   }
   50% {
     transform: translateY(-3px);
+  }
+}
+
+@keyframes popper-celebrate {
+  0%,
+  100% {
+    transform: rotate(-8deg) scale(1);
+  }
+  50% {
+    transform: rotate(8deg) scale(1.15);
   }
 }
 

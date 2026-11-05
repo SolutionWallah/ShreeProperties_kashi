@@ -1414,7 +1414,19 @@ img {
 .contact-action-pair .button {
   min-width: 0;
   padding-inline: 0.65rem;
-  white-space: nowrap;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.contact-action-pair .button .icon {
+  flex: 0 0 auto;
+}
+@media (max-width: 560px) {
+  .contact-action-pair .button {
+    gap: 0.35rem;
+    padding-inline: 0.35rem;
+    font-size: 0.74rem;
+  }
 }
 .consultant-panel {
   display: flex;

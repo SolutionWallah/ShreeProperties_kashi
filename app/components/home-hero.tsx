@@ -18,8 +18,14 @@ export function HomeHero() {
               className="festive-announcement hero-festive-announcement"
               lang={festiveConfig.language}
             >
+              <span className="greeting-popper" aria-hidden="true">
+                🎉
+              </span>
               <span>{festiveConfig.label}</span>
               {festiveConfig.announcement}
+              <span className="greeting-popper" aria-hidden="true">
+                🎉
+              </span>
             </p>
           )}
           <span className="eyebrow">Local property guidance in Varanasi</span>
