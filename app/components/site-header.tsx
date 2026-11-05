@@ -18,7 +18,7 @@ export function SiteHeader({ current = "home" }: { current?: "home" | "propertie
             <span className="brand-copy">
               <span className="brand-name">Shree Property Kashi</span>
               <span className="brand-tagline" lang="hi">
-                आपका विश्वास ही, मेरी पहचान हैं
+                आपका विश्वास ही, हमारी पहचान हैं
               </span>
             </span>
           </Link>

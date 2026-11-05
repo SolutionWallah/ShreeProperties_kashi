@@ -6,11 +6,7 @@ import { PropertyCard } from "./property-card";
 import { getListingFilters } from "../data/properties";
 import type { Property } from "../data/properties";
 
-export function HomeFeatured({
-  initialProperties,
-}: {
-  initialProperties?: Property[];
-}) {
+export function HomeFeatured({ initialProperties }: { initialProperties?: Property[] }) {
   const [activeFilter, setActiveFilter] = useState("All");
   const filters = getListingFilters();
 
@@ -49,7 +45,6 @@ export function HomeFeatured({
           ))}
         </div>
       </div>
-      <p className="sample-note">Handpicked verified properties in Varanasi.</p>
       {featured.length > 0 ? (
         <div className="property-grid">
           {featured.map((property) => (
@@ -59,7 +54,7 @@ export function HomeFeatured({
       ) : (
         <div className="empty-state">
           <h2>No featured {activeFilter.toLowerCase()} listings yet</h2>
-          <p>Explore all available Varanasi listings to see more options.</p>
+          <p>New property listings will appear here once they are published.</p>
         </div>
       )}
       <div className="more-row">

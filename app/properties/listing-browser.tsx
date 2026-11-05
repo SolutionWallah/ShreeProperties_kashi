@@ -26,11 +26,7 @@ const emptyFilters: Filters = {
   query: "",
 };
 
-export function ListingBrowser({
-  initialProperties,
-}: {
-  initialProperties?: Property[];
-}) {
+export function ListingBrowser({ initialProperties }: { initialProperties?: Property[] }) {
   const [draft, setDraft] = useState<Filters>({ ...emptyFilters });
   const [active, setActive] = useState<Filters>({ ...emptyFilters });
   const [sort, setSort] = useState("newest");
@@ -196,7 +192,6 @@ export function ListingBrowser({
             <div className="listing-count" aria-live="polite">
               {filtered.length} {filtered.length === 1 ? "Property" : "Properties"} Found
             </div>
-            <span className="sample-note">Showing verified listings in Varanasi.</span>
           </div>
           <div className="toolbar-actions">
             <label className="search-field">
@@ -236,8 +231,16 @@ export function ListingBrowser({
           </div>
         ) : (
           <div className="empty-state">
-            <h2>No properties match these filters</h2>
-            <p>Try a broader search or reset the filters to view all available listings.</p>
+            <h2>
+              {sourceProperties.length
+                ? "No properties match these filters"
+                : "No properties listed yet"}
+            </h2>
+            <p>
+              {sourceProperties.length
+                ? "Try a broader search or reset the filters to view all listings."
+                : "Published property listings will appear here."}
+            </p>
             <button className="button button--outline" type="button" onClick={resetFilters}>
               Reset filters
             </button>

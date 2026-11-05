@@ -12,9 +12,20 @@ export function PropertyCard({ property }: { property: Property }) {
   return (
     <article className="property-card">
       <div className="property-photo-wrap">
-        <Link href={`/properties/${propertySlug}`} aria-label={`View ${property.title} details`}>
-          <img className="property-photo" src={property.image} alt={`${property.title} exterior`} />
-        </Link>
+        {property.image ? (
+          <Link href={`/properties/${propertySlug}`} aria-label={`View ${property.title} details`}>
+            <img
+              className="property-photo"
+              src={property.image}
+              alt={`${property.title} exterior`}
+            />
+          </Link>
+        ) : (
+          <div className="property-photo-placeholder" aria-label="No property photo uploaded">
+            <Icon name="image" />
+            <span>No photo uploaded</span>
+          </div>
+        )}
         <span className={`listing-badge ${isLease ? "listing-badge--green" : ""}`}>
           {property.status}
         </span>

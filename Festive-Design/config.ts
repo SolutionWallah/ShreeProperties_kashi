@@ -6,6 +6,7 @@ type FestivalTheme = {
   };
   effects: {
     banner: boolean;
+    footerLights: boolean;
     propertyCardLights: boolean;
   };
   bannerMessage: string;
@@ -21,6 +22,7 @@ const festivalThemes = {
     },
     effects: {
       banner: true,
+      footerLights: true,
       propertyCardLights: true,
     },
     bannerMessage: "आप सभी को दीपावली की हार्दिक शुभकामनाएं",

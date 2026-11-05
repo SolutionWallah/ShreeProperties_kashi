@@ -2,10 +2,12 @@ import Link from "next/link";
 import { advisors, getAdvisorWhatsAppUrl } from "../data/advisors";
 import { BrandMark } from "./brand-mark";
 import { Icon } from "./icons";
+import { FestiveFooterLights } from "../../Festive-Design";
 
 export function SiteFooter() {
   return (
     <footer className="footer" id="footer-contact">
+      <FestiveFooterLights />
       <div className="shell footer-main">
         <div className="footer-brand">
           <Link className="brand" href="/">
@@ -13,7 +15,7 @@ export function SiteFooter() {
             <span className="brand-copy">
               <span className="brand-name">Shree Property Kashi</span>
               <span className="brand-tagline" lang="hi">
-                आपका विश्वास ही, मेरी पहचान हैं
+                आपका विश्वास ही, हमारी पहचान हैं
               </span>
             </span>
           </Link>

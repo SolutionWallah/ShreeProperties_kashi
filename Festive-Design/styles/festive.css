@@ -9,6 +9,89 @@
     0 0 2.4rem 0.7rem color-mix(in srgb, var(--festive-light) 34%, transparent);
 }
 
+.festive-layer[data-festive-theme="diwali"] .footer {
+  position: relative;
+}
+
+.festive-footer-lights {
+  position: absolute;
+  z-index: 1;
+  top: 0.35rem;
+  right: clamp(1rem, 3vw, 3rem);
+  left: clamp(1rem, 3vw, 3rem);
+  height: 1.45rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--festive-primary) 48%, var(--festive-light));
+  border-radius: 0 0 50% 50%;
+  pointer-events: none;
+}
+
+.festive-footer-lights__bulb {
+  position: absolute;
+  top: 0.2rem;
+  width: 0.42rem;
+  height: 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--festive-primary) 45%, var(--festive-light));
+  border-radius: 50% 50% 45% 45%;
+  background: var(--festive-light);
+  box-shadow: var(--diwali-light-glow);
+  animation: diwali-bulb-glow 3.6s ease-in-out infinite;
+}
+
+.festive-footer-lights__bulb:nth-child(1) {
+  left: 2%;
+}
+
+.festive-footer-lights__bulb:nth-child(2) {
+  top: 0.38rem;
+  left: 14%;
+  background: var(--festive-primary);
+  animation-delay: 0.35s;
+}
+
+.festive-footer-lights__bulb:nth-child(3) {
+  top: 0.58rem;
+  left: 26%;
+  animation-delay: 0.7s;
+}
+
+.festive-footer-lights__bulb:nth-child(4) {
+  top: 0.74rem;
+  left: 38%;
+  background: var(--festive-secondary);
+  animation-delay: 1.05s;
+}
+
+.festive-footer-lights__bulb:nth-child(5) {
+  top: 0.82rem;
+  left: 50%;
+  animation-delay: 1.4s;
+}
+
+.festive-footer-lights__bulb:nth-child(6) {
+  top: 0.74rem;
+  left: 62%;
+  background: var(--festive-primary);
+  animation-delay: 1.75s;
+}
+
+.festive-footer-lights__bulb:nth-child(7) {
+  top: 0.58rem;
+  left: 74%;
+  animation-delay: 2.1s;
+}
+
+.festive-footer-lights__bulb:nth-child(8) {
+  top: 0.38rem;
+  left: 86%;
+  background: var(--festive-secondary);
+  animation-delay: 2.45s;
+}
+
+.festive-footer-lights__bulb:nth-child(9) {
+  left: 98%;
+  animation-delay: 2.8s;
+}
+
 .festive-banner {
   position: relative;
   z-index: 4;
@@ -301,6 +384,11 @@
   }
 
   .festive-card-lights__bulb {
+    animation: none;
+    opacity: 0.9;
+  }
+
+  .festive-footer-lights__bulb {
     animation: none;
     opacity: 0.9;
   }

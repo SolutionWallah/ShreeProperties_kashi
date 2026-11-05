@@ -9,7 +9,6 @@ import { deletePropertyApi, fetchAdminPropertiesList, updatePropertyApi } from "
 
 const filters: Array<"All" | AdminStatus> = ["All", "Available", "Sold", "Rented", "Leased"];
 const pageSize = 6;
-const fallbackImage = "/property-images/lanka-apartments.webp";
 
 export function AdminPropertyManager() {
   const [records, setRecords] = useState<AdminProperty[]>([]);
@@ -112,7 +111,15 @@ export function AdminPropertyManager() {
       </div>
 
       {error && (
-        <div style={{ padding: "1rem", margin: "1rem 0", background: "#fef2f2", color: "#991b1b", borderRadius: "8px" }}>
+        <div
+          style={{
+            padding: "1rem",
+            margin: "1rem 0",
+            background: "#fef2f2",
+            color: "#991b1b",
+            borderRadius: "8px",
+          }}
+        >
           {error}
         </div>
       )}
@@ -160,8 +167,8 @@ export function AdminPropertyManager() {
 
       <div className="admin-pagination">
         <span>
-          Showing {total ? (page - 1) * pageSize + 1 : 0}–
-          {Math.min(page * pageSize, total)} of {total} properties
+          Showing {total ? (page - 1) * pageSize + 1 : 0}–{Math.min(page * pageSize, total)} of{" "}
+          {total} properties
         </span>
         <div>
           <button type="button" disabled={page <= 1} onClick={() => setPage(page - 1)}>
@@ -204,14 +211,18 @@ function AdminPropertyRow({
   return (
     <tr>
       <td>
-        <Image
-          className="admin-property-image"
-          src={record.image || fallbackImage}
-          alt={`${record.title} exterior`}
-          width={128}
-          height={72}
-          unoptimized
-        />
+        {record.image ? (
+          <Image
+            className="admin-property-image"
+            src={record.image}
+            alt={`${record.title} exterior`}
+            width={128}
+            height={72}
+            unoptimized
+          />
+        ) : (
+          <div className="admin-property-image admin-property-image--empty">No photo</div>
+        )}
       </td>
       <td>
         <strong className="admin-property-title">{record.title}</strong>

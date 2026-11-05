@@ -69,6 +69,21 @@ export function FestiveBanner() {
   );
 }
 
+// Render the seasonal light string inside the top edge of the site footer.
+export function FestiveFooterLights() {
+  if (!festiveConfig.enabled || !festiveConfig.effects.footerLights) {
+    return null;
+  }
+
+  return (
+    <div className="festive-footer-lights" aria-hidden="true">
+      {Array.from({ length: 9 }, (_, index) => (
+        <span className="festive-footer-lights__bulb" key={index} />
+      ))}
+    </div>
+  );
+}
+
 // Render the small diya mark used to separate repeated festival messages.
 function FestivalDiya() {
   return (

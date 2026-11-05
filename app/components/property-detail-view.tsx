@@ -17,8 +17,7 @@ export function PropertyDetailView({
   details: PropertyDetailContent | null;
   similarProperties?: Property[];
 }) {
-  const photos =
-    details?.gallery && details.gallery.length > 0 ? details.gallery : [property.image];
+  const photos = details?.gallery.filter(Boolean) ?? (property.image ? [property.image] : []);
   const [activePhoto, setActivePhoto] = useState(0);
   const [shareMessage, setShareMessage] = useState("");
   const similarList = similarProperties || [];
@@ -84,64 +83,73 @@ export function PropertyDetailView({
         <div className="detail-top-grid">
           <div className="detail-gallery-column">
             <div
-              className={`property-gallery ${photos.length === 1 ? "property-gallery--single" : ""}`}
+              className={`property-gallery ${photos.length === 1 ? "property-gallery--single" : ""} ${photos.length === 0 ? "property-gallery--empty" : ""}`}
               aria-label="Property photo gallery"
             >
-              <button
-                className="gallery-main"
-                type="button"
-                onClick={() => setActivePhoto((activePhoto + 1) % photos.length)}
-                aria-label="Show next property photo"
-              >
-                <img
-                  src={photos[activePhoto]}
-                  alt={`${property.title}, photo ${activePhoto + 1} of ${photos.length}`}
-                />
-                <span className="gallery-count">
-                  {activePhoto + 1} / {photos.length}
-                </span>
-              </button>
-              {photos.length > 1 && (
+              {photos.length === 0 ? (
+                <div className="gallery-empty">
+                  <Icon name="image" />
+                  <span>No property photos have been added.</span>
+                </div>
+              ) : (
                 <>
                   <button
-                    className="gallery-arrow gallery-arrow--previous"
-                    type="button"
-                    onClick={() =>
-                      setActivePhoto((activePhoto - 1 + photos.length) % photos.length)
-                    }
-                    aria-label="Show previous property photo"
-                  >
-                    <span aria-hidden="true">‹</span>
-                  </button>
-                  <button
-                    className="gallery-arrow gallery-arrow--next"
+                    className="gallery-main"
                     type="button"
                     onClick={() => setActivePhoto((activePhoto + 1) % photos.length)}
                     aria-label="Show next property photo"
                   >
-                    <span aria-hidden="true">›</span>
+                    <img
+                      src={photos[activePhoto]}
+                      alt={`${property.title}, photo ${activePhoto + 1} of ${photos.length}`}
+                    />
+                    <span className="gallery-count">
+                      {activePhoto + 1} / {photos.length}
+                    </span>
                   </button>
-                </>
-              )}
-              {photos.length > 1 && (
-                <div className="gallery-thumbnails">
-                  {photos.slice(1, 5).map((photo, index) => {
-                    const photoIndex = index + 1;
-                    return (
+                  {photos.length > 1 && (
+                    <>
                       <button
-                        className={`gallery-thumbnail ${activePhoto === photoIndex ? "is-active" : ""}`}
-                        key={photo}
+                        className="gallery-arrow gallery-arrow--previous"
                         type="button"
-                        onClick={() => setActivePhoto(photoIndex)}
-                        aria-label={`Show property photo ${photoIndex + 1}`}
-                        aria-pressed={activePhoto === photoIndex}
+                        onClick={() =>
+                          setActivePhoto((activePhoto - 1 + photos.length) % photos.length)
+                        }
+                        aria-label="Show previous property photo"
                       >
-                        <img src={photo} alt="" />
-                        {photoIndex === 4 && <span>View photo</span>}
+                        <span aria-hidden="true">‹</span>
                       </button>
-                    );
-                  })}
-                </div>
+                      <button
+                        className="gallery-arrow gallery-arrow--next"
+                        type="button"
+                        onClick={() => setActivePhoto((activePhoto + 1) % photos.length)}
+                        aria-label="Show next property photo"
+                      >
+                        <span aria-hidden="true">›</span>
+                      </button>
+                    </>
+                  )}
+                  {photos.length > 1 && (
+                    <div className="gallery-thumbnails">
+                      {photos.slice(1, 5).map((photo, index) => {
+                        const photoIndex = index + 1;
+                        return (
+                          <button
+                            className={`gallery-thumbnail ${activePhoto === photoIndex ? "is-active" : ""}`}
+                            key={photo}
+                            type="button"
+                            onClick={() => setActivePhoto(photoIndex)}
+                            aria-label={`Show property photo ${photoIndex + 1}`}
+                            aria-pressed={activePhoto === photoIndex}
+                          >
+                            <img src={photo} alt="" />
+                            {photoIndex === 4 && <span>View photo</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -187,11 +195,13 @@ export function PropertyDetailView({
           </nav>
           <section className="detail-overview" id="overview">
             <h2>Property Overview</h2>
-            <p>
-              {details?.description ??
-                `${property.title} in ${property.location}. Contact us for current availability and more details.`}
-            </p>
-            <span className="sample-note">Verified listing details for Shree Property Kashi.</span>
+            {details?.description ? (
+              <p>{details.description}</p>
+            ) : (
+              <p className="detail-missing-value">
+                No description has been added for this listing.
+              </p>
+            )}
           </section>
           <div className="detail-information-grid">
             <section className="detail-specifications" id="specifications">

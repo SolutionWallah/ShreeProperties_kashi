@@ -1,8 +1,8 @@
 # Festive Design Module
 
 The festive layer lives in this folder. The root layout applies its wrapper
-once, while the site header and property cards render shared seasonal effects
-without importing festival settings.
+once, while the site header, footer, and property cards render shared seasonal
+effects without importing festival settings.
 
 ## Add or switch a festival
 

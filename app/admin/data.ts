@@ -41,8 +41,6 @@ export type AdminProperty = {
   updatedAt?: string;
 };
 
-const fallbackImage = "/property-images/lanka-apartments.webp";
-
 export function formatPriceDisplay(rupees: number | string): string {
   const num = Number(rupees);
   if (!Number.isFinite(num) || num <= 0) return "₹0";
@@ -87,15 +85,19 @@ export function mapDbPropertyToAdminProperty(item: any): AdminProperty {
     PLOT_LAND: "Plot / Land",
   };
 
-  const adminStatus = statusMap[item.status] ?? "Available";
-  const kind = kindMap[item.kind] ?? "Buy";
-  const category = categoryMap[item.category] ?? "Residential";
+  const adminStatus = statusMap[item.status];
+  const kind = kindMap[item.kind];
+  const category = categoryMap[item.category];
+
+  if (!adminStatus || !kind || !category) {
+    throw new Error("Property contains an unsupported status, listing kind, or category");
+  }
 
   const photos = Array.isArray(item.images)
     ? item.images.map((img: any) => img.objectKey).filter(Boolean)
     : [];
 
-  const mainImage = photos.length > 0 ? photos[0] : fallbackImage;
+  const mainImage = photos[0] ?? "";
 
   return {
     id: item.id,
@@ -105,7 +107,7 @@ export function mapDbPropertyToAdminProperty(item: any): AdminProperty {
     location: item.location,
     category,
     kind,
-    status: item.kind === "Rent" ? "For Rent" : item.kind === "Commercial" ? "For Lease" : "For Sale",
+    status: kind === "Rent" ? "For Rent" : kind === "Commercial" ? "For Lease" : "For Sale",
     adminStatus,
     published: Boolean(item.published),
     price: formatPriceDisplay(priceNum),
@@ -115,7 +117,8 @@ export function mapDbPropertyToAdminProperty(item: any): AdminProperty {
     areaSqFt: areaNum,
     description: item.description ?? "",
     bedrooms: item.bedrooms ?? undefined,
-    bathrooms: item.bathrooms !== null && item.bathrooms !== undefined ? Number(item.bathrooms) : undefined,
+    bathrooms:
+      item.bathrooms !== null && item.bathrooms !== undefined ? Number(item.bathrooms) : undefined,
     floor: item.floor ?? undefined,
     totalFloors: item.totalFloors ?? undefined,
     furnishing: item.furnishing ?? undefined,
@@ -232,4 +235,3 @@ export async function uploadImagesApi(files: File[]): Promise<string[]> {
 
   return Array.isArray(data.urls) ? data.urls : data.url ? [data.url] : [];
 }
-

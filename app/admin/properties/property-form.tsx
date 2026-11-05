@@ -12,12 +12,7 @@ import {
 } from "react";
 import { Icon } from "../../components/icons";
 import type { ListingKind, PropertyCategory } from "../../data/properties";
-import {
-  createPropertyApi,
-  updatePropertyApi,
-  uploadImagesApi,
-  type AdminStatus,
-} from "../data";
+import { createPropertyApi, updatePropertyApi, uploadImagesApi, type AdminStatus } from "../data";
 
 type FormValues = {
   title: string;
@@ -61,12 +56,12 @@ const emptyForm: FormValues = {
   status: "Available",
   floor: "",
   totalFloors: "",
-  furnishing: "Semi Furnished",
-  parking: "1 Car",
-  lift: "Yes",
-  powerBackup: "Yes",
-  commercialType: "Office",
-  landUse: "Residential Plot",
+  furnishing: "",
+  parking: "",
+  lift: "",
+  powerBackup: "",
+  commercialType: "",
+  landUse: "",
   plotDimensions: "",
   roadWidth: "",
   plotFacing: "",
@@ -89,8 +84,6 @@ const statusOptions: Array<{ value: AdminStatus; icon: "check" | "tag" | "key" }
   { value: "Rented", icon: "key" },
   { value: "Leased", icon: "key" },
 ];
-
-const fallbackImage = "/property-images/lanka-apartments.webp";
 
 export function AdminPropertyForm() {
   const router = useRouter();
@@ -121,24 +114,43 @@ export function AdminPropertyForm() {
         setEditId(record.slug || record.id);
         setValues({
           title: record.title ?? "",
-          kind: record.kind === "BUY" ? "Buy" : record.kind === "RENT" ? "Rent" : record.kind === "COMMERCIAL" ? "Commercial" : "Plots",
-          category: record.category === "RESIDENTIAL" ? "Residential" : record.category === "COMMERCIAL" ? "Commercial" : "Plot / Land",
+          kind:
+            record.kind === "BUY"
+              ? "Buy"
+              : record.kind === "RENT"
+                ? "Rent"
+                : record.kind === "COMMERCIAL"
+                  ? "Commercial"
+                  : "Plots",
+          category:
+            record.category === "RESIDENTIAL"
+              ? "Residential"
+              : record.category === "COMMERCIAL"
+                ? "Commercial"
+                : "Plot / Land",
           bedrooms: record.bedrooms ?? "",
           bathrooms: record.bathrooms ? String(record.bathrooms) : "",
           area: String(record.areaSqFt ?? ""),
           price: String(record.priceRupees ?? ""),
           location: record.location ?? "",
           description: record.description ?? "",
-          status: record.status === "SOLD" ? "Sold" : record.status === "RENTED" ? "Rented" : record.status === "LEASED" ? "Leased" : "Available",
+          status:
+            record.status === "SOLD"
+              ? "Sold"
+              : record.status === "RENTED"
+                ? "Rented"
+                : record.status === "LEASED"
+                  ? "Leased"
+                  : "Available",
           published: Boolean(record.published ?? true),
           floor: record.floor ?? "",
           totalFloors: record.totalFloors ?? "",
-          furnishing: record.furnishing ?? emptyForm.furnishing,
-          parking: record.parking ?? emptyForm.parking,
-          lift: record.lift ?? emptyForm.lift,
-          powerBackup: record.powerBackup ?? emptyForm.powerBackup,
-          commercialType: record.commercialType ?? emptyForm.commercialType,
-          landUse: record.landUse ?? emptyForm.landUse,
+          furnishing: record.furnishing ?? "",
+          parking: record.parking ?? "",
+          lift: record.lift ?? "",
+          powerBackup: record.powerBackup ?? "",
+          commercialType: record.commercialType ?? "",
+          landUse: record.landUse ?? "",
           plotDimensions: record.plotDimensions ?? "",
           roadWidth: record.roadWidth ?? "",
           plotFacing: record.plotFacing ?? "",
@@ -151,8 +163,8 @@ export function AdminPropertyForm() {
         const imageKeys = Array.isArray(record.images)
           ? record.images.map((img: any) => img.objectKey).filter(Boolean)
           : [];
-        setPreviews(imageKeys.length ? imageKeys : [fallbackImage]);
-        setPhotoFiles((imageKeys.length ? imageKeys : [fallbackImage]).map(() => null));
+        setPreviews(imageKeys);
+        setPhotoFiles(imageKeys.map(() => null));
       } catch {
         setMessage("Could not load existing property details.");
       }
@@ -223,6 +235,11 @@ export function AdminPropertyForm() {
       setIsSaving(false);
       return;
     }
+    if (!values.description.trim()) {
+      setMessage("Description is required.");
+      setIsSaving(false);
+      return;
+    }
     if (!cleanPrice || cleanPrice < 0) {
       setMessage("Please enter a valid price.");
       setIsSaving(false);
@@ -250,8 +267,6 @@ export function AdminPropertyForm() {
         }
       }
 
-      const finalPhotos = validPhotos.length ? validPhotos : [fallbackImage];
-
       const payload = {
         title: values.title.trim(),
         kind: values.kind,
@@ -259,11 +274,12 @@ export function AdminPropertyForm() {
         location: values.location.trim(),
         priceRupees: cleanPrice,
         areaSqFt: cleanArea,
-        description: values.description.trim() || values.title.trim(),
+        description: values.description.trim(),
         status: values.status,
         published: isDraft ? false : values.published,
         bedrooms: values.category === "Residential" ? values.bedrooms.trim() || null : null,
-        bathrooms: values.category !== "Plot / Land" && values.bathrooms ? Number(values.bathrooms) : null,
+        bathrooms:
+          values.category !== "Plot / Land" && values.bathrooms ? Number(values.bathrooms) : null,
         floor: values.category !== "Plot / Land" ? values.floor.trim() || null : null,
         totalFloors: values.category !== "Plot / Land" ? values.totalFloors.trim() || null : null,
         furnishing: values.category === "Residential" ? values.furnishing || null : null,
@@ -272,14 +288,18 @@ export function AdminPropertyForm() {
         powerBackup: values.category !== "Plot / Land" ? values.powerBackup || null : null,
         commercialType: values.category === "Commercial" ? values.commercialType || null : null,
         landUse: values.category === "Plot / Land" ? values.landUse || null : null,
-        plotDimensions: values.category === "Plot / Land" ? values.plotDimensions.trim() || null : null,
+        plotDimensions:
+          values.category === "Plot / Land" ? values.plotDimensions.trim() || null : null,
         roadWidth: values.category === "Plot / Land" ? values.roadWidth.trim() || null : null,
         plotFacing: values.category === "Plot / Land" ? values.plotFacing || null : null,
         boundaryWall: values.category === "Plot / Land" ? values.boundaryWall || null : null,
         youtubeUrl: values.youtubeUrl.trim() || null,
         googleMapsUrl: values.googleMapsUrl.trim() || null,
-        highlights: values.highlights.map((h) => h.trim()).filter(Boolean).slice(0, 5),
-        photos: finalPhotos,
+        highlights: values.highlights
+          .map((h) => h.trim())
+          .filter(Boolean)
+          .slice(0, 5),
+        photos: validPhotos,
       };
 
       if (editId) {
@@ -318,10 +338,10 @@ export function AdminPropertyForm() {
       bathrooms: category === "Plot / Land" ? "" : current.bathrooms,
       floor: category === "Plot / Land" ? "" : current.floor,
       totalFloors: category === "Plot / Land" ? "" : current.totalFloors,
-      furnishing: category === "Residential" ? current.furnishing || emptyForm.furnishing : "",
-      parking: category === "Plot / Land" ? "" : current.parking || emptyForm.parking,
-      lift: category === "Plot / Land" ? "" : current.lift || emptyForm.lift,
-      powerBackup: category === "Plot / Land" ? "" : current.powerBackup || emptyForm.powerBackup,
+      furnishing: category === "Residential" ? current.furnishing : "",
+      parking: category === "Plot / Land" ? "" : current.parking,
+      lift: category === "Plot / Land" ? "" : current.lift,
+      powerBackup: category === "Plot / Land" ? "" : current.powerBackup,
       commercialType: category === "Commercial" ? current.commercialType : "",
       landUse: category === "Plot / Land" ? current.landUse : "",
       plotDimensions: category === "Plot / Land" ? current.plotDimensions : "",
@@ -381,7 +401,7 @@ export function AdminPropertyForm() {
                 required
                 value={values.title}
                 onChange={(event) => updateField("title", event.target.value)}
-                placeholder="e.g. 3 BHK Flat in Lanka"
+                placeholder="Property name"
               />
             </FormField>
             <fieldset className="admin-field admin-listing-type">
@@ -434,6 +454,7 @@ export function AdminPropertyForm() {
                   value={values.commercialType}
                   onChange={(event) => updateField("commercialType", event.target.value)}
                 >
+                  <option value="">Select type</option>
                   <option>Office</option>
                   <option>Retail Shop</option>
                   <option>Showroom</option>
@@ -448,6 +469,7 @@ export function AdminPropertyForm() {
                   value={values.landUse}
                   onChange={(event) => updateField("landUse", event.target.value)}
                 >
+                  <option value="">Select land use</option>
                   <option>Residential Plot</option>
                   <option>Commercial Plot</option>
                   <option>Agricultural Land</option>
@@ -484,7 +506,7 @@ export function AdminPropertyForm() {
                 inputMode="numeric"
                 value={values.area}
                 onChange={(event) => updateField("area", event.target.value)}
-                placeholder="1,450"
+                placeholder="Enter area in square feet"
               />
             </FormField>
             {values.category === "Plot / Land" && (
@@ -506,7 +528,7 @@ export function AdminPropertyForm() {
                   inputMode="decimal"
                   value={values.price}
                   onChange={(event) => updateField("price", event.target.value)}
-                  placeholder="1,20,00,000"
+                  placeholder="Enter property price"
                 />
               </div>
             </FormField>
@@ -517,7 +539,7 @@ export function AdminPropertyForm() {
                   required
                   value={values.location}
                   onChange={(event) => updateField("location", event.target.value)}
-                  placeholder="Lanka, Varanasi"
+                  placeholder="Locality, city"
                 />
               </div>
             </FormField>
@@ -577,7 +599,7 @@ export function AdminPropertyForm() {
                         maxLength={120}
                         value={highlight}
                         onChange={(event) => updateHighlight(index, event.target.value)}
-                        placeholder="e.g. Close to BHU, markets and hospitals"
+                        placeholder="Add a verified property feature"
                       />
                     </label>
                     <button
@@ -697,6 +719,7 @@ export function AdminPropertyForm() {
                     value={values.furnishing}
                     onChange={(event) => updateField("furnishing", event.target.value)}
                   >
+                    <option value="">Select furnishing</option>
                     <option>Semi Furnished</option>
                     <option>Furnished</option>
                     <option>Unfurnished</option>
@@ -707,6 +730,7 @@ export function AdminPropertyForm() {
                     value={values.parking}
                     onChange={(event) => updateField("parking", event.target.value)}
                   >
+                    <option value="">Select parking</option>
                     <option>1 Car</option>
                     <option>2 Cars</option>
                     <option>None</option>
@@ -717,6 +741,7 @@ export function AdminPropertyForm() {
                     value={values.lift}
                     onChange={(event) => updateField("lift", event.target.value)}
                   >
+                    <option value="">Select</option>
                     <option>Yes</option>
                     <option>No</option>
                   </select>
@@ -726,6 +751,7 @@ export function AdminPropertyForm() {
                     value={values.powerBackup}
                     onChange={(event) => updateField("powerBackup", event.target.value)}
                   >
+                    <option value="">Select</option>
                     <option>Yes</option>
                     <option>No</option>
                     <option>24×7</option>
@@ -754,6 +780,7 @@ export function AdminPropertyForm() {
                     value={values.parking}
                     onChange={(event) => updateField("parking", event.target.value)}
                   >
+                    <option value="">Select parking</option>
                     <option>1 Car</option>
                     <option>2 Cars</option>
                     <option>None</option>
@@ -764,6 +791,7 @@ export function AdminPropertyForm() {
                     value={values.lift}
                     onChange={(event) => updateField("lift", event.target.value)}
                   >
+                    <option value="">Select</option>
                     <option>Yes</option>
                     <option>No</option>
                   </select>
@@ -773,6 +801,7 @@ export function AdminPropertyForm() {
                     value={values.powerBackup}
                     onChange={(event) => updateField("powerBackup", event.target.value)}
                   >
+                    <option value="">Select</option>
                     <option>Yes</option>
                     <option>No</option>
                     <option>24×7</option>
