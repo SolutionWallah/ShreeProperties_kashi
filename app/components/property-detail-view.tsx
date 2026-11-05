@@ -177,6 +177,8 @@ export function PropertyDetailView({
               <div>
                 <strong>Ashutosh Singh (Himanshu)</strong>
                 <span>Property Dealer &amp; Real Estate Consultant</span>
+                <strong>Sunil Maurya</strong>
+                <span>Property Dealer &amp; Real Estate Consultant</span>
               </div>
             </section>
           </aside>

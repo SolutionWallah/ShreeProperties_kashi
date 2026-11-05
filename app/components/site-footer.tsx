@@ -74,25 +74,21 @@ export function SiteFooter() {
         <div className="footer-column">
           <h2>Get in Touch</h2>
           <ul className="footer-links">
-            <li>
+            <li className="footer-contact-group">
               <a className="footer-contact" href="tel:+919889028504">
                 <Icon name="phone" />
                 +91 98890 28504
               </a>
-            </li>
-            <li>
-              <a className="footer-contact" href="tel:+917903512516">
-                <Icon name="phone" />
-                +91 79035 12516
-              </a>
-            </li>
-            <li>
               <a className="footer-contact" href="https://wa.me/919889028504">
                 <Icon name="whatsapp" />
                 WhatsApp 98890 28504
               </a>
             </li>
-            <li>
+            <li className="footer-contact-group">
+              <a className="footer-contact" href="tel:+917903512516">
+                <Icon name="phone" />
+                +91 79035 12516
+              </a>
               <a className="footer-contact" href="https://wa.me/917903512516">
                 <Icon name="whatsapp" />
                 WhatsApp 79035 12516

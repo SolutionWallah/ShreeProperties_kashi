@@ -304,9 +304,15 @@ img {
 }
 .hero-actions {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 0.7rem;
   margin-top: 1.65rem;
+}
+.hero-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
 }
 .arch-mark {
   position: absolute;
@@ -780,6 +786,11 @@ img {
   align-items: center;
   gap: 0.55rem;
   font-size: 0.92rem;
+}
+.footer-contact-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.8rem;
 }
 .footer-links a:hover {
   color: var(--color-orange);
@@ -1697,9 +1708,17 @@ img {
     font-size: 1rem;
   }
   .hero-actions {
-    flex-direction: column;
     align-items: stretch;
     max-width: 250px;
+  }
+  .hero-contact-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hero-contact-actions .button {
+    min-width: 0;
+    padding-inline: 0.5rem;
+    font-size: 0.72rem;
   }
   .trust-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));

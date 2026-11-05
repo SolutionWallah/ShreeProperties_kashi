@@ -18,22 +18,26 @@ export function HomeHero() {
           </h1>
           <p>Buy, sell, or rent homes, commercial spaces, and land with Shree Property Kashi.</p>
           <div className="hero-actions">
-            <a className="button button--green" href="tel:+919889028504">
-              <Icon name="phone" />
-              Call 98890 28504
-            </a>
-            <a className="button button--outline" href="https://wa.me/919889028504">
-              <Icon name="whatsapp" />
-              WhatsApp 98890 28504
-            </a>
-            <a className="button button--green" href="tel:+917903512516">
-              <Icon name="phone" />
-              Call 79035 12516
-            </a>
-            <a className="button button--outline" href="https://wa.me/917903512516">
-              <Icon name="whatsapp" />
-              WhatsApp 79035 12516
-            </a>
+            <div className="hero-contact-actions">
+              <a className="button button--green" href="tel:+919889028504">
+                <Icon name="phone" />
+                Call 98890 28504
+              </a>
+              <a className="button button--outline" href="https://wa.me/919889028504">
+                <Icon name="whatsapp" />
+                WhatsApp 98890 28504
+              </a>
+            </div>
+            <div className="hero-contact-actions">
+              <a className="button button--green" href="tel:+917903512516">
+                <Icon name="phone" />
+                Call 79035 12516
+              </a>
+              <a className="button button--outline" href="https://wa.me/917903512516">
+                <Icon name="whatsapp" />
+                WhatsApp 79035 12516
+              </a>
+            </div>
           </div>
         </div>
       </div>
