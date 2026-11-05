@@ -51,14 +51,6 @@ export function SiteHeader({ current = "home" }: { current?: "home" | "propertie
             Contact
           </a>
         </nav>
-        <div className="header-actions">
-          <a className="header-phone" href="tel:+919889028504">
-            <Icon name="phone" /> +91 98890 28504
-          </a>
-          <a className="header-phone" href="tel:+917903512516">
-            <Icon name="phone" /> +91 79035 12516
-          </a>
-        </div>
       </div>
     </header>
   );
